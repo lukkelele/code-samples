@@ -2,6 +2,64 @@
     "version": "2.0.0",
     "tasks": [
         {
+            "label": "cmake: configure",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "-S", "${fileDirname}",
+                "-B", "${workspaceFolder}/build",
+                "--fresh"
+            ],
+            "options": {
+                "cwd": "${fileDirname}",
+            },
+            "group": "build",
+            "runOptions": {
+                "reevaluateOnRerun": false
+            },
+            "problemMatcher": "$gcc"
+        },
+        {
+            "label": "cmake: build",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build",
+                "${workspaceFolder}/build"
+            ],
+            "options": {
+                "cwd": "${fileDirname}",
+            },
+            "group": "build",
+            "runOptions": {
+                "reevaluateOnRerun": false
+            },
+            "problemMatcher": "$gcc"
+        },
+        {
+            "label": "cmake: clean",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build", "${workspaceFolder}/build",
+                "--target", "clean"
+            ],
+            "runOptions": {
+                "reevaluateOnRerun": false
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "cmake: run",
+            "type": "shell",
+            "command": "${workspaceFolder}/build/app/app.exe",
+            "dependsOn": "cmake: build",
+            "runOptions": {
+                "reevaluateOnRerun": false
+            },
+            "problemMatcher": []
+        },
+        {
             "label": "git: submodule: init",
             "type": "shell",
             "command": "git submodule update --init --recursive",
