@@ -1,0 +1,6 @@
+{
+    "clangd.enable": true,
+    "clangd.path": "clangd",
+    "editor.formatOnSave": false,
+    "clang-format.executable": "clang-format"
+}
