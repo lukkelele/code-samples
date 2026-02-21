@@ -75,7 +75,9 @@ static bool IsObjectValid(Interface& Object)
 
 int main()
 {
-	std::printf("sample: interface\n\n");
+	std::printf("\n==============================\n");
+	std::printf("\tsample: interface\n");
+	std::printf("==============================\n\n");
 
 	LulleBulle lulle;
 	PrintObjectName(lulle);
