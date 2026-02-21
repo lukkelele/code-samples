@@ -11,7 +11,7 @@ git clone https://github.com/lukkelele/code-samples.git
 ```
 
 ## Samples
-> * [C++](./cpp)
+> * [C++](./samples/cpp)
 
 Read the README.md in the sample directory you would like to run.  
 There are tasks available to use to build and run each sample with Zed/Visual Studio Code.
