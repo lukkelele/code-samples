@@ -1,79 +1,69 @@
 {
-    "version": "2.0.0",
-    "tasks": [
-        {
-            "label": "cmake: configure",
-            "type": "shell",
-            "command": "cmake",
-            "args": [
-                "-S", "${fileDirname}",
-                "-B", "${workspaceFolder}/build",
-                "--fresh"
-            ],
-            "options": {
-                "cwd": "${fileDirname}",
-                "env": {
-                    "PROJECT_ROOT": "${workspaceFolder}"
-                }
-            },
-            "group": "build",
-            "runOptions": {
-                "reevaluateOnRerun": false
-            }
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "cmake: configure",
+      "type": "shell",
+      "command": "cmake",
+      "args": ["-S", "${fileDirname}", "-B", "${workspaceFolder}/build", "--fresh"],
+      "options": {
+        "cwd": "${fileDirname}",
+        "env": {
+          "REPO_ROOT": "${workspaceFolder}",
         },
-        {
-            "label": "cmake: build",
-            "type": "shell",
-            "command": "cmake",
-            "args": [
-                "--build",
-                "${workspaceFolder}/build"
-            ],
-            "options": {
-                "cwd": "${fileDirname}",
-                "env": {
-                    "PROJECT_ROOT": "${workspaceFolder}"
-                }
-            },
-            "group": "build",
-            "runOptions": {
-                "reevaluateOnRerun": false
-            },
+      },
+      "group": "build",
+      "runOptions": {
+        "reevaluateOnRerun": false,
+      },
+    },
+    {
+      "label": "cmake: build",
+      "type": "shell",
+      "command": "cmake",
+      "args": ["--build", "${workspaceFolder}/build"],
+      "options": {
+        "cwd": "${fileDirname}",
+        "env": {
+          "REPO_ROOT": "${workspaceFolder}",
         },
-        {
-            "label": "cmake: clean",
-            "type": "shell",
-            "command": "cmake",
-            "args": [
-                "--build", "${workspaceFolder}/build",
-                "--target", "clean"
-            ],
-            "options": {
-                "cwd": "${fileDirname}",
-                "env": {
-                    "PROJECT_ROOT": "${workspaceFolder}"
-                }
-            },
-            "runOptions": {
-                "reevaluateOnRerun": false
-            },
-            "problemMatcher": []
+      },
+      "group": "build",
+      "runOptions": {
+        "reevaluateOnRerun": false,
+      },
+    },
+    {
+      "label": "cmake: clean",
+      "type": "shell",
+      "command": "cmake",
+      "args": ["--build", "${workspaceFolder}/build", "--target", "clean"],
+      "options": {
+        "cwd": "${fileDirname}",
+        "env": {
+          "REPO_ROOT": "${workspaceFolder}",
         },
-        {
-            "label": "sample: run",
-            "type": "shell",
-            "command": "${workspaceFolder}/build/app/app",
-            "dependsOn": "cmake: build",
-            "runOptions": {
-                "reevaluateOnRerun": false
-            },
-            "problemMatcher": []
-        },
-        {
-            "label": "git: submodule: init",
-            "type": "shell",
-            "command": "git submodule update --init --recursive",
-            "problemMatcher": []
-        }
-    ]
+      },
+      "runOptions": {
+        "reevaluateOnRerun": false,
+      },
+      "problemMatcher": [],
+    },
+    {
+      "label": "sample: run",
+      "type": "shell",
+      "command": "${workspaceFolder}/build/app/app",
+      "dependsOn": "cmake: build",
+      "runOptions": {
+        "reevaluateOnRerun": false,
+      },
+      "problemMatcher": [],
+    },
+    {
+      "label": "git: submodule: init",
+      "type": "shell",
+      "command": "git submodule update --init --recursive",
+      "problemMatcher": [],
+    },
+  ],
 }
