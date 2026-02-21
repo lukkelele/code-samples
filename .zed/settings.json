@@ -1,0 +1,9 @@
+{
+  "project_name": "code-samples",
+  "preferred_line_length": 124,
+  "languages": {
+    "C++": {
+      "language_servers": ["clangd"]
+    }
+  }
+}
