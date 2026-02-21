@@ -5,10 +5,10 @@ set(CMAKE_C_STANDARD 23)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-if (NOT DEFINED ENV{PROJECT_ROOT})
+if (NOT DEFINED ENV{REPO_ROOT})
     message(FATAL_ERROR "[${PROJECT_NAME}] Environment not sourced")
 endif()
-list(APPEND CMAKE_MODULE_PATH "$ENV{PROJECT_ROOT}/cmake")
+list(APPEND CMAKE_MODULE_PATH "$ENV{REPO_ROOT}/cmake")
 include(extensions)
 
 sample_print_banner()
