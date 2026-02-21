@@ -60,7 +60,7 @@
             "problemMatcher": []
         },
         {
-            "label": "cmake: run",
+            "label": "sample: run",
             "type": "shell",
             "command": "${workspaceFolder}/build/app/app",
             "dependsOn": "cmake: build",
