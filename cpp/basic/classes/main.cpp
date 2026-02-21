@@ -1,7 +1,6 @@
 #include <cstdint>
 #include <cstdio>
-#include <chrono>
-#include <thread>
+#include <string>
 
 class older_brother
 {
@@ -30,7 +29,7 @@ private:
 class little_brother
 {
 public:
-    /** 
+    /**
      * A constructor set as 'default' is basically the same as:
      *    little_brother()
      *    {
@@ -75,8 +74,8 @@ int main()
      * This is called a 'scope'.
      * The objects/instances created on the stack in this scope (I know, "What does stack mean??", bear with me)
      * live inside the scope and once we go 'out of scope' at the end, the created instances will be destroyed.
-     * 
-     * Read about: 
+     *
+     * Read about:
      *  1) Stack-based memory allocation
      *  2) Heap-based memory allocation (also known as dynamic memory allocation)
      */
