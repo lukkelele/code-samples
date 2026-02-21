@@ -1,4 +1,10 @@
 {
+  "inlay_hints": {
+    "enabled": false,
+    "show_value_hints": true,
+    "show_parameter_hints": true,
+    "toggle_on_modifiers_press": { "alt": true },
+  },
   "show_whitespaces": "trailing",
   "project_name": "code-samples",
   "preferred_line_length": 124,
