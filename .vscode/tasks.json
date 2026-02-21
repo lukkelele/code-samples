@@ -12,12 +12,14 @@
             ],
             "options": {
                 "cwd": "${fileDirname}",
+                "env": {
+                    "PROJECT_ROOT": "${workspaceFolder}"
+                }
             },
             "group": "build",
             "runOptions": {
                 "reevaluateOnRerun": false
-            },
-            "problemMatcher": "$gcc"
+            }
         },
         {
             "label": "cmake: build",
@@ -29,12 +31,14 @@
             ],
             "options": {
                 "cwd": "${fileDirname}",
+                "env": {
+                    "PROJECT_ROOT": "${workspaceFolder}"
+                }
             },
             "group": "build",
             "runOptions": {
                 "reevaluateOnRerun": false
             },
-            "problemMatcher": "$gcc"
         },
         {
             "label": "cmake: clean",
@@ -44,6 +48,12 @@
                 "--build", "${workspaceFolder}/build",
                 "--target", "clean"
             ],
+            "options": {
+                "cwd": "${fileDirname}",
+                "env": {
+                    "PROJECT_ROOT": "${workspaceFolder}"
+                }
+            },
             "runOptions": {
                 "reevaluateOnRerun": false
             },
@@ -52,7 +62,7 @@
         {
             "label": "cmake: run",
             "type": "shell",
-            "command": "${workspaceFolder}/build/app/app.exe",
+            "command": "${workspaceFolder}/build/app/app",
             "dependsOn": "cmake: build",
             "runOptions": {
                 "reevaluateOnRerun": false
