@@ -34,12 +34,7 @@ target_sources(${PROJECT_NAME} PRIVATE
 add_subdirectory(src)
 
 target_include_directories(${PROJECT_NAME} PRIVATE
-    $ENV{EXPERIMENTAL_CPP_DIR}
     src
-)
-
-target_link_libraries(${PROJECT_NAME} PRIVATE
-    experimental_core
 )
 
 experimental_finalize()
