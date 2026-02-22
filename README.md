@@ -17,7 +17,6 @@ git clone https://github.com/lukkelele/code-samples.git
 > - [C](./samples/c)
 > - [C++](./samples/cpp)
 
-Read the README.md in the sample directory you would like to run.  
 There are tasks available to use to build and run each sample with Zed/Visual Studio Code.
 
 <br>
@@ -45,6 +44,10 @@ When you have run **cmake: configure** and the build folder hasn't been removed/
 Therefore it can be useful to re-run the **sample: run** task if modifying a sample and wanting to see the changes you've made in real time.
 
 <br>
+
+## Experimental
+
+The directory [experimental](./experimental) contains random code I want to try out and experiment with.
 
 ---
 
