@@ -9,12 +9,7 @@ public:
 	static_assert(N > 0, "Capacity must be greater than 0");
 
 public:
-	ring_buffer()
-		: count(0)
-		, head(0)
-		, tail(0)
-	{
-	}
+	ring_buffer() = default;
 	~ring_buffer() = default;
 
 	std::size_t size() const { return count; }
@@ -29,25 +24,31 @@ public:
 		count = 0;
 	}
 
-	bool push_back(const T& item)
+	bool put(const T& item)
 	{
 		if (full()) {
 			return false;
 		}
 
 		pending[tail] = item;
+		if constexpr (std::is_integral_v<T>) {
+			std::printf("[ring_buffer::put] item=%u head=%u tail=%u count=%u\n", item, head, tail, count); /* @todo: REMOVE */
+		}
 		tail = next_index(tail);
 		count++;
 		return true;
 	}
 
-	bool pop_front(T& out_item)
+	bool get(T& out_item)
 	{
 		if (empty()) {
 			return false;
 		}
 
 		out_item = pending[head];
+		if constexpr (std::is_integral_v<T>) {
+			std::printf("[ring_buffer::get] item=%u head=%u tail=%u count=%u\n", out_item, head, tail, count); /* @todo: REMOVE */
+		}
 		head = next_index(head);
 		count--;
 		return true;
