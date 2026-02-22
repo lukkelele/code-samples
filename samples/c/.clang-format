@@ -1,4 +1,4 @@
-Language: Cpp
+Language: C
 BasedOnStyle: LLVM
 
 AccessModifierOffset: -4
@@ -16,20 +16,18 @@ AllowShortLoopsOnASingleLine: false
 AllowShortLambdasOnASingleLine: None
 BreakBeforeBraces: Custom
 BraceWrapping:
-  AfterCaseLabel: true
-  AfterClass: true
+  AfterCaseLabel: false
   AfterControlStatement: false
-  AfterEnum: true
+  AfterEnum: false
   AfterFunction: true
   AfterNamespace: false
   AfterObjCDeclaration: true
-  AfterStruct: true
-  AfterUnion: true
-  AfterExternBlock: true
-  BeforeCatch: true
+  AfterStruct: false
+  AfterUnion: false
+  AfterExternBlock: false
+  BeforeCatch: false
   BeforeElse: false
-  BeforeLambdaBody: true
-  BeforeWhile: true
+  BeforeWhile: false
   IndentBraces: false
   SplitEmptyRecord: true
   SplitEmptyFunction: false
