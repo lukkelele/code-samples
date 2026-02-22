@@ -1,0 +1,11 @@
+Diagnostics:
+  Suppress:
+    - invalid_consteval_call
+---
+If:
+  PathMatch: ^c/intermediate/.*\.(c|h)$
+
+# Silence warning for 'errno.h' being unused, when in fact it is.
+Diagnostics:
+  UnusedIncludes: None
+---

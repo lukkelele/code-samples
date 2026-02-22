@@ -9,7 +9,7 @@ AlignConsecutiveMacros: true
 AlignEscapedNewlines: Left
 AlignOperands: DontAlign
 AlignTrailingComments: false
-AllowShortBlocksOnASingleLine: Empty
+AllowShortBlocksOnASingleLine: Never
 AllowShortEnumsOnASingleLine: false
 AllowShortFunctionsOnASingleLine: Inline
 AllowShortLoopsOnASingleLine: false
