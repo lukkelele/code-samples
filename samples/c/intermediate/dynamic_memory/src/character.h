@@ -19,9 +19,35 @@ typedef struct {
 character_t* character_create(character_type_t type, const char* name, uint8_t age);
 
 /**
- * @brief Destroy a character instance.
+ * @brief Allocate memory for a character instance.
+ * Variation of character_create without arguments to the instance.
+ * @retval 0 Memory allocated for character instance.
+ * @retval EINVAL Invalid argument.
+ * @retval ENOMEM Failed to allocate memory for instance.
+ */
+int character_alloc(character_t** character);
+
+/**
+ * @brief Destroy a character instance by freeing the allocated memory.
  */
 void character_destroy(character_t* character);
+
+/**
+ * @brief Destroy a character instance by freeing the allocated memory
+ * and setting the pointer to NULL if successful.
+ * Variation of character_destroy.
+ */
+void character_destroy2(character_t** character);
+
+/**
+ * @brief Set character name.
+ * @param character Instance to modify.
+ * @param name Null-terminated string containing the new name.
+ * @retval 0 Name set.
+ * @retval EINVAL Invalid argument(s).
+ * @retval ENOMEM Failed to allocate memory for string.
+ */
+int character_set_name(character_t* character, const char* name);
 
 /**
  * @brief Print character info.
