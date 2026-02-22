@@ -1,21 +1,6 @@
 #include "core/core.h"
 #include "ring_buffer.h"
 
-/** @todo: Format logging */
-template<typename T, std::size_t N>
-static void print_ring_buffer(const ring_buffer<T, N>& buf)
-{
-	int idx = 0;
-	if constexpr (std::is_integral_v<T>) {
-		for (const T& entry : buf) {
-			std::println("buf[{}]: {}", idx++, entry);
-		}
-		std::println();
-	} else {
-		static_assert(false, "Not supported");
-	}
-}
-
 static void test_ring_buffer();
 
 int main(int argc, char** argv)
@@ -27,37 +12,26 @@ int main(int argc, char** argv)
 	return 0;
 }
 
-
 static void test_ring_buffer()
 {
 	core::log("create ring_buffer<int>");
 	ring_buffer<int, 4> buf;
-	buf.put(1);
-	buf.put(4);
-	buf.put(9);
-
-	print_ring_buffer(buf);
-
-	core::log("buf.front() == {}", *buf.front());
+	buf.put(10);
+	buf.put(11);
+	buf.put(12);
 
 	int x = 0;
-	if (buf.get(x)) {
-		print_ring_buffer(buf);
-	}
+	buf.get(x);
+	buf.get(x);
+	buf.get(x);
 
-	if (buf.get(x)) {
-		print_ring_buffer(buf);
-	}
+	buf.put(30);
+	buf.put(31);
+	buf.put(32);
 
-	if (buf.get(x)) {
-		print_ring_buffer(buf);
-	}
+	buf.put_front(20);
+	buf.get(x);
 
-	if (buf.put(32)) {
-		print_ring_buffer(buf);
-	}
-
-	if (buf.put(65)) {
-		print_ring_buffer(buf);
-	}
+	buf.put_front(21);
+	buf.put_front(22);
 }

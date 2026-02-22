@@ -1,11 +1,12 @@
 #pragma once
 
 #include <cassert>
-#include <array>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <cstddef>
+#include <array>
+#include <concepts>
 #include <print>
 #include <string_view>
 #include <type_traits>
@@ -21,5 +22,8 @@ namespace core {
 	{
 		std::println("{}", std::format(fmt, std::forward<Args>(args)...).c_str());
 	}
+
+	template<typename T>
+	concept Formattable = std::formattable<T, char>;
 
 }
