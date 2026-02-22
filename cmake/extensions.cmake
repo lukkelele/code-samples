@@ -12,13 +12,13 @@ endfunction()
 # Finalize a sample by setting up properties and other things to
 # make it easier to run using 'Tasks' (with Zed/Visual Studio Code).
 macro(sample_finalize)
-    set(output_dir ${CMAKE_BINARY_DIR}/app)
+    set(_output_dir ${CMAKE_BINARY_DIR}/app)
     set_target_properties(${PROJECT_NAME} PROPERTIES
-        RUNTIME_OUTPUT_DIRECTORY ${output_dir}
-        RUNTIME_OUTPUT_DIRECTORY_DEBUG ${output_dir}
-        RUNTIME_OUTPUT_DIRECTORY_RELEASE ${output_dir}
-        RUNTIME_OUTPUT_DIRECtORY_RELWITHDEBINFO ${output_dir}
-        RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL ${output_dir}
+        RUNTIME_OUTPUT_DIRECTORY ${_output_dir}
+        RUNTIME_OUTPUT_DIRECTORY_DEBUG ${_output_dir}
+        RUNTIME_OUTPUT_DIRECTORY_RELEASE ${_output_dir}
+        RUNTIME_OUTPUT_DIRECtORY_RELWITHDEBINFO ${_output_dir}
+        RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL ${_output_dir}
     )
 
     add_custom_command(
@@ -38,13 +38,20 @@ function(experimental_print_banner)
 endfunction()
 
 macro(experimental_finalize)
-    set(output_dir ${CMAKE_BINARY_DIR}/app)
+    set(_output_dir ${CMAKE_BINARY_DIR}/app)
     set_target_properties(${PROJECT_NAME} PROPERTIES
-        RUNTIME_OUTPUT_DIRECTORY ${output_dir}
-        RUNTIME_OUTPUT_DIRECTORY_DEBUG ${output_dir}
-        RUNTIME_OUTPUT_DIRECTORY_RELEASE ${output_dir}
-        RUNTIME_OUTPUT_DIRECtORY_RELWITHDEBINFO ${output_dir}
-        RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL ${output_dir}
+        RUNTIME_OUTPUT_DIRECTORY ${_output_dir}
+        RUNTIME_OUTPUT_DIRECTORY_DEBUG ${_output_dir}
+        RUNTIME_OUTPUT_DIRECTORY_RELEASE ${_output_dir}
+        RUNTIME_OUTPUT_DIRECtORY_RELWITHDEBINFO ${_output_dir}
+        RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL ${_output_dir}
+    )
+
+    target_include_directories(${PROJECT_NAME} PRIVATE
+        $ENV{EXPERIMENTAL_CPP_DIR}
+    )
+    target_link_libraries(${PROJECT_NAME} PRIVATE
+        experimental_core
     )
 
     add_custom_command(
