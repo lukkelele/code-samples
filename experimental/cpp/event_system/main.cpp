@@ -8,8 +8,9 @@ static void print_ring_buffer(const ring_buffer<T, N>& buf)
 	int idx = 0;
 	if constexpr (std::is_integral_v<T>) {
 		for (const T& entry : buf) {
-			std::printf("buf[%d]: %d\n", idx++, entry);
+			std::println("buf[{}]: {}", idx++, entry);
 		}
+		std::println();
 	} else {
 		static_assert(false, "Not supported");
 	}
@@ -37,31 +38,26 @@ static void test_ring_buffer()
 
 	print_ring_buffer(buf);
 
-	std::printf("buf.front() == %d\n", *buf.front());
+	core::log("buf.front() == {}", *buf.front());
 
 	int x = 0;
 	if (buf.get(x)) {
 		print_ring_buffer(buf);
-		std::printf("\n");
 	}
 
 	if (buf.get(x)) {
 		print_ring_buffer(buf);
-		std::printf("\n");
 	}
 
 	if (buf.get(x)) {
 		print_ring_buffer(buf);
-		std::printf("\n");
 	}
 
 	if (buf.put(32)) {
 		print_ring_buffer(buf);
-		std::printf("\n");
 	}
 
 	if (buf.put(65)) {
 		print_ring_buffer(buf);
-		std::printf("\n");
 	}
 }

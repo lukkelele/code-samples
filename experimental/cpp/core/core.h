@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <cstddef>
+#include <print>
 #include <string_view>
 #include <type_traits>
 
@@ -14,6 +15,11 @@
 namespace core {
 
 	void print_banner(std::string_view text);
-	void log(std::string_view msg);
+
+	template<typename... Args>
+	inline void log(std::format_string<Args...> fmt, Args&&... args)
+	{
+		std::println("{}", std::format(fmt, std::forward<Args>(args)...).c_str());
+	}
 
 }

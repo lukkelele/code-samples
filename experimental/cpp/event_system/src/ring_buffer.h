@@ -32,7 +32,7 @@ public:
 
 		pending[tail] = item;
 		if constexpr (std::is_integral_v<T>) {
-			std::printf("[ring_buffer::put] item=%u head=%u tail=%u count=%u\n", item, head, tail, count); /* @todo: REMOVE */
+			std::println("[ring_buffer::put] item={} head={} tail={} count={}", item, head, tail, count); /* @todo: REMOVE */
 		}
 		tail = next_index(tail);
 		count++;
@@ -47,7 +47,7 @@ public:
 
 		out_item = pending[head];
 		if constexpr (std::is_integral_v<T>) {
-			std::printf("[ring_buffer::get] item=%u head=%u tail=%u count=%u\n", out_item, head, tail, count); /* @todo: REMOVE */
+			std::println("[ring_buffer::get] item={} head={} tail={} count={}", out_item, head, tail, count); /* @todo: REMOVE */
 		}
 		head = next_index(head);
 		count--;
