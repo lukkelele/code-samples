@@ -14,5 +14,8 @@
       "format_on_save": "on",
       "auto_indent": false,
     },
+    "Markdown": {
+      "format_on_save": "off",
+    },
   },
 }
