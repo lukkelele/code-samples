@@ -12,7 +12,7 @@
 1. Build by using **cmake: build**
 1. Run by using **sample: run**
 
-When you have run **cmake: configure** and the build folder hasn't been removed/modified elsewhere, you can just run the **cmake: build** task to re-compile.
+When you have run **cmake: configure** and the build folder hasn't been removed/modified elsewhere, you can just run the **cmake: build** task to re-compile. The **sample: run** task also allows for recompilation.
 
 ### Visual Studio Code
 1. Enter [main.c](./main.c)
