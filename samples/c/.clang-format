@@ -8,7 +8,7 @@ AlignConsecutiveDeclarations: false
 AlignConsecutiveMacros: true
 AlignEscapedNewlines: Left
 AlignOperands: DontAlign
-AlignTrailingComments: true
+AlignTrailingComments: false
 AllowShortBlocksOnASingleLine: Empty
 AllowShortEnumsOnASingleLine: false
 AllowShortFunctionsOnASingleLine: Inline
@@ -33,11 +33,13 @@ BraceWrapping:
   SplitEmptyFunction: false
 BreakBeforeBinaryOperators: NonAssignment
 BreakInheritanceList: AfterColon
-BreakBeforeTernaryOperators: true
+BreakBeforeTernaryOperators: false
 BreakConstructorInitializers: BeforeComma
 BreakStringLiterals: false
-BitFieldColonSpacing: Both
-ColumnLimit: 0
+BitFieldColonSpacing: After
+ColumnLimit: 100
+ConstructorInitializerIndentWidth: 8
+ContinuationIndentWidth: 8
 ConstructorInitializerAllOnOneLineOrOnePerLine: true
 Cpp11BracedListStyle: false
 EmptyLineBeforeAccessModifier: LogicalBlock
@@ -45,7 +47,7 @@ IndentCaseBlocks: false
 IndentCaseLabels: true
 AllowShortCaseLabelsOnASingleLine: true
 AlignConsecutiveShortCaseStatements:
-  Enabled: true
+  Enabled: false
   AcrossEmptyLines: true
   AcrossComments: false
   AlignCaseColons: false
@@ -65,7 +67,7 @@ SpacesInAngles: Never
 SpacesBeforeTrailingComments: 1
 SpaceAfterCStyleCast: false
 TabWidth: 4
-UseTab: Always
+UseTab: ForContinuationAndIndentation
 InsertNewlineAtEOF: true
 PackConstructorInitializers: Never
 LambdaBodyIndentation: OuterScope
