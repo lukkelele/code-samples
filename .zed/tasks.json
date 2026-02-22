@@ -61,7 +61,7 @@
   },
   {
     "label": "sample: run",
-    "command": "./scripts/build.sh",
+    "command": "./scripts/build.sh && ./scripts/run.sh",
     "cwd": "$ZED_WORKTREE_ROOT",
     "env": {
       "REPO_ROOT": "${ZED_WORKTREE_ROOT}",
