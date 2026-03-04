@@ -63,7 +63,7 @@
     "show_command": true,
   },
   {
-    "label": "sample: run",
+    "label": "run",
     "command": "./scripts/build.sh && ./scripts/run.sh",
     "cwd": "$ZED_WORKTREE_ROOT",
     "env": {
@@ -81,7 +81,7 @@
     "show_command": true,
   },
   {
-    "label": "sample: remove build dir",
+    "label": "remove build dir",
     "command": "rm -rf build",
     "cwd": "$ZED_WORKTREE_ROOT",
     "use_new_terminal": false,
