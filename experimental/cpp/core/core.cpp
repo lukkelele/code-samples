@@ -1,6 +1,7 @@
 #include "core.h"
 
 #include <cstdio>
+#include <thread>
 
 namespace core {
 
@@ -24,6 +25,11 @@ namespace core {
 		}
 
 		std::println("\n");
+	}
+
+	void log_current_thread()
+	{
+		log("current thread: {}", std::this_thread::get_id());
 	}
 
 }
