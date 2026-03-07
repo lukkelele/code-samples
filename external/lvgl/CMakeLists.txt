@@ -1,0 +1,6 @@
+if (NOT LV_BUILD_CONF_PATH OR "${LV_BUILD_CONF_PATH}" STREQUAL "")
+    set(LV_BUILD_CONF_PATH "${CMAKE_CURRENT_SOURCE_DIR}/lv_conf.h" CACHE STRING "" FORCE)
+    message("LV_BUILD_CONF_PATH: ${LV_BUILD_CONF_PATH}")
+endif()
+
+add_subdirectory(lvgl)
