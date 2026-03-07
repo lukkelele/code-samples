@@ -1,20 +1,25 @@
 {
-    "inlay_hints": {
-        "enabled": false,
-        "show_value_hints": true,
-        "show_parameter_hints": true,
-        "toggle_on_modifiers_press": { "alt": true }
+  "inlay_hints": {
+    "enabled": false,
+    "show_value_hints": true,
+    "show_parameter_hints": true,
+    "toggle_on_modifiers_press": { "alt": true },
+  },
+  "show_whitespaces": "trailing",
+  "preferred_line_length": 124,
+  "lsp": {
+    "clangd": {
+      "settings": {
+        "header-insertion": "never",
+      },
     },
-    "show_whitespaces": "trailing",
-    "preferred_line_length": 124,
-    "languages": {
-        "C++": {
-            "language_servers": ["clangd"],
-            "format_on_save": "on",
-            "auto_indent": "syntax_aware"
-        },
-        "Markdown": {
-            "format_on_save": "off"
-        }
-    }
+  },
+  "languages": {
+    "C++": {
+      "language_servers": ["clangd"],
+      "format_on_save": "on",
+      "auto_indent": "none",
+      "show_whitespaces": "trailing",
+    },
+  },
 }
