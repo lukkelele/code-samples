@@ -10,6 +10,8 @@
 
 #include <lvgl/lvgl.h>
 
+#include "global.h"
+
 static lv_obj_t* root;
 static lv_obj_t* textarea;
 static lv_obj_t* button_matrix;
@@ -56,6 +58,8 @@ static void on_button_matrix_event(lv_event_t* e)
 			lv_textarea_delete_char(textarea);
 		} else if (std::strcmp(text, LV_SYMBOL_CALL) == 0) {
 			lv_textarea_set_text(textarea, "");
+
+			ui::next_view = ui::VIEW_CONTACTS;
 		}
 	}
 }
@@ -89,8 +93,12 @@ void dial_view::init()
 
 void dial_view::enter()
 {
+	std::println("{}", __PRETTY_FUNCTION__);
 	assert(root && "missing root");
-	lv_screen_load(root);
+
+	static constexpr bool DELETE_OLD_SCREEN = false;
+	static constexpr lv_screen_load_anim_t ANIMATION = LV_SCREEN_LOAD_ANIM_OUT_BOTTOM;
+	lv_screen_load_anim(root, ANIMATION, 220, 0, DELETE_OLD_SCREEN);
 }
 
 void dial_view::tick()

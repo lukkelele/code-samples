@@ -4,6 +4,7 @@ project(lvgl-phone-dial LANGUAGES C CXX)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_BUILD_TYPE Debug)
 
 if (NOT DEFINED ENV{REPO_ROOT})
     message(FATAL_ERROR "[${PROJECT_NAME}] Environment not sourced")
@@ -41,6 +42,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 
 target_sources(${PROJECT_NAME} PRIVATE
     main.cpp
+    contacts_view.cpp
     dial_view.cpp
 )
 

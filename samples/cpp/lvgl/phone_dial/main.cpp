@@ -10,7 +10,9 @@
 #include "core/lvgl_core.h"
 #include "core/demo_shop.h"
 
+#include "global.h"
 #include "dial_view.h"
+#include "contacts_view.h"
 
 static constexpr std::array<const char*, 16> KEYPAD_MAP = {
 	"1", "2", "3", "\n",
@@ -41,6 +43,47 @@ int main()
 	lvgl::init();
 	set_theme();
 
+	std::vector<std::unique_ptr<lvgl::view>> views;
+	views.emplace_back(std::make_unique<dial_view>());
+	lvgl::view* dial = views.back().get();
+	views.emplace_back(std::make_unique<contacts_view>());
+	lvgl::view* contacts = views.back().get();
+
+	for (auto& view : views) {
+		view->init();
+	}
+
+#if 1
+	dial->enter();
+#else
+	contacts->enter();
+	ui::next_view = ui::VIEW_CONTACTS;
+	ui::current_view = ui::VIEW_CONTACTS;
+#endif
+
+	while (true) {
+		if (ui::next_view != ui::current_view) {
+			/* Change view. */
+			/* !! TEMPORARY SOLUTION !! */
+			if (ui::next_view == ui::VIEW_DIAL) {
+				dial->enter();
+			} else {
+				contacts->enter();
+			}
+
+			ui::current_view = ui::next_view.load();
+		}
+
+		for (auto& view : views) {
+			view->tick();
+		}
+		lvgl::tick();
+	}
+
+	return 0;
+}
+
+
 #if 0
 	lv_obj_t* root = lv_screen_active();
 
@@ -67,22 +110,3 @@ int main()
 	create_keypad(keypad_view);
 	// lv_screen_load(keypad_view);
 #endif
-
-	std::vector<std::unique_ptr<lvgl::view>> views;
-	auto& dial = views.emplace_back(std::make_unique<dial_view>());
-
-	for (auto& view : views) {
-		view->init();
-	}
-
-	dial->enter();
-
-	while (true) {
-		for (auto& view : views) {
-			view->tick();
-		}
-		lvgl::tick();
-	}
-
-	return 0;
-}
