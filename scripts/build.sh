@@ -40,10 +40,10 @@ cmake_build()
 }
 
 case "$PROJECT_ROOT" in
-    *samples/c|*experimental/c*)
+    *samples/c/*|*experimental/c*)
         cmake_build || exit $?
         ;;
-    *samples/cpp|*experimental/cpp*)
+    *samples/cpp/*|*experimental/cpp*)
         cmake_build || exit $?
         ;;
 esac
