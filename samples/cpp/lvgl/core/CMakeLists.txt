@@ -29,6 +29,7 @@ add_library(${PROJECT_NAME} STATIC
     demo_shop.h
 )
 
+target_link_libraries(lvgl PRIVATE ${SDL2_LIBRARIES})
 target_include_directories(${PROJECT_NAME} PRIVATE
     ${SDL2_INCLUDE_DIRS}
 )
