@@ -21,11 +21,6 @@ if (MSVC)
 	)
 endif()
 
-add_subdirectory(
-    ${CMAKE_CURRENT_SOURCE_DIR}/../core
-    ${CMAKE_BINARY_DIR}/core_build
-)
-
 add_executable(${PROJECT_NAME})
 target_sources(${PROJECT_NAME} PRIVATE
     main.cpp

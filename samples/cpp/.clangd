@@ -1,3 +1,0 @@
-Diagnostics:
-  Suppress:
-    - invalid_consteval_call

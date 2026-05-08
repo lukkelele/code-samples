@@ -1,15 +1,18 @@
 #pragma once
 
+#include <arpa/inet.h>
 #include <array>
 #include <cassert>
 #include <chrono>
+#include <concepts>
+#include <cstddef>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include <cstddef>
-#include <concepts>
 #include <mutex>
+#include <netinet/in.h>
 #include <print>
+#include <span>
 #include <string_view>
 #include <thread>
 #include <type_traits>
@@ -19,7 +22,6 @@
 using namespace std::chrono_literals;
 
 namespace core {
-
 	void print_banner(std::string_view text);
 
 	template<typename... Args>
@@ -33,4 +35,9 @@ namespace core {
 	template<typename T>
 	concept Formattable = std::formattable<T, char>;
 
+	std::string bytes_to_hex(std::span<const unsigned char> bytes);
+	std::string bytes_to_bits(std::span<const unsigned char> bytes);
+	std::span<const unsigned char> as_bytes(const sockaddr_in& addr);
+	std::string to_hex(const sockaddr_in& addr);
+	std::string to_bits(const sockaddr_in& addr);
 }

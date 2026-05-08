@@ -21,6 +21,14 @@ macro(sample_finalize)
         RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL ${_output_dir}
     )
 
+    add_subdirectory($ENV{LIB_CPP_DIR}/core ${CMAKE_BINARY_DIR}/core_build)
+    target_link_libraries(${PROJECT_NAME} PRIVATE
+        core
+    )
+    target_include_directories(${PROJECT_NAME} PRIVATE
+        $ENV{LIB_CPP_DIR}
+    )
+
     add_custom_command(
         TARGET ${PROJECT_NAME}
         POST_BUILD
@@ -47,11 +55,13 @@ macro(experimental_finalize)
         RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL ${_output_dir}
     )
 
+    add_subdirectory($ENV{LIB_CPP_DIR}/core ${CMAKE_BINARY_DIR}/core_build)
     target_include_directories(${PROJECT_NAME} PRIVATE
+        $ENV{LIB_CPP_DIR}
         $ENV{EXPERIMENTAL_CPP_DIR}
     )
     target_link_libraries(${PROJECT_NAME} PRIVATE
-        experimental_core
+        core
     )
 
     add_custom_command(
