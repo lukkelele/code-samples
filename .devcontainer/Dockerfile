@@ -1,85 +1,89 @@
-ARG UBUNTU_VERSION=24.04
-ARG GCC_VERSION=14
-ARG LLVM_VERSION=17
+FROM ubuntu:24.04
 
-FROM docker.io/library/ubuntu:${UBUNTU_VERSION} AS base
-
-ARG UBUNTU_VERSION
-ARG GCC_VERSION
-ARG LLVM_VERSION
-
-RUN apt-get update && apt-get install -y locales && rm -rf /var/lib/apt/lists/* \
-	&& localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
-
-ENV LANG en_US.utf8
 ENV DEBIAN_FRONTEND=noninteractive
+ENV DISPLAY=:0
 
-WORKDIR /tmp
-
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    gnupg2 ca-certificates software-properties-common \
-    cppcheck valgrind ccache cmake wget git nano jq \
-    # Required by Visual Studio
-    gdb make ninja-build rsync zip sudo \
-    # Required by VCPKG
-    openssh-server tar curl unzip pkg-config bash-completion aria2 mono-complete \
-    # Required by LLVM
-    lsb-release zlib1g-dev
-
-# +-----------------------------+
-# | CMake                       |
-# +-----------------------------+
-RUN version="$(curl -s https://api.github.com/repos/Kitware/CMake/releases/latest | jq -r '.tag_name' | cut -c 2-)"; echo "Latest Version: $version" && \
-    url="https://github.com/Kitware/CMake/releases/download/v$version/cmake-$version-linux-x86_64.sh"; echo "Download URL: $url" && \
-    wget -q $url && \
-    mkdir /opt/cmake && \
-    sh cmake-$version-linux-x86_64.sh --prefix=/opt/cmake --skip-license && \
-    ln -s /opt/cmake/bin/cmake /usr/local/bin/cmake && \
-    rm -rf cmake-$version-linux-x86_64.sh
-
-# +-----------------------------+
-# | GCC                         |
-# +-----------------------------+
-RUN add-apt-repository universe && \
-    apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-get update && apt-get install -y \
+    binutils \
+    build-essential \
+    bzip2 \
+    bash-completion \
+    gnupg \
+    ca-certificates \
     software-properties-common \
-    libmpfr-dev libgmp3-dev libmpc-dev \
-    gcc-${GCC_VERSION} g++-${GCC_VERSION}
+    curl \
+    valgrind \
+    ccache \
+    cmake \
+    wget \
+    git \
+    g++ \
+    g++-14 \
+    gcc-14 \
+    gcc-multilib \
+    gdb \
+    gnupg \
+    jq \
+    libx11-dev \
+    libc6-dev \
+    libxrandr-dev \
+    libxinerama-dev \
+    libxi-dev \
+    libxext-dev \
+    libxfixes-dev \
+    libgl1-mesa-dev \
+    libglu1-mesa-dev \
+    lsb-release \
+    libgtk-3-dev \
+    libwayland-bin \
+    libwayland-dev \
+    wayland-protocols \
+    mesa-utils \
+    libxkbcommon-dev \
+    make \
+    ninja-build \
+    rsync \
+    perl \
+    zip \
+    sed \
+    sudo \
+    openssh-server \
+    python3 \
+    python3-pip \
+    tar \
+    vim \
+    unzip \
+    patch \
+    pkg-config \
+    mono-complete \
+    x11-apps \
+    zlib1g-dev \
+    && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-14 100 \
+    && update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-14 100 \
+    && update-alternatives --set gcc /usr/bin/gcc-14 \
+    && update-alternatives --set g++ /usr/bin/g++-14
 
-RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-${GCC_VERSION} 100 && \
-    update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-${GCC_VERSION} 100
+RUN apt-get clean -y && \
+    apt-get autoremove --purge -y && \
+    rm -rf /var/lib/apt/lists/*
 
-RUN apt-get autoremove -y libmpfr-dev libgmp3-dev libmpc-dev
-
-# +-----------------------------+
-# | LLVM                        |
-# +-----------------------------+
-RUN wget https://apt.llvm.org/llvm.sh && \
+RUN wget -q "https://apt.llvm.org/llvm.sh" && \
     chmod +x llvm.sh && \
-    ./llvm.sh ${LLVM_VERSION} all && \
+    ./llvm.sh 19 && \
+    apt-get install -y clang-format-19 clangd-19 clang-tidy-19 && \
+    ln -sf /usr/bin/clang-format-19 /usr/local/bin/clang-format && \
+    ln -sf /usr/bin/clangd-19 /usr/local/bin/clangd && \
+    ln -sf /usr/bin/clang-tidy-19 /usr/local/bin/clang-tidy && \
     rm ./llvm.sh
 
-ENV PATH="/usr/lib/llvm-${LLVM_VERSION}/bin:/usr/lib/llvm-${LLVM_VERSION}/include:${PATH}"
-ENV LD_LIBRARY_PATH="/usr/lib/llvm-${LLVM_VERSION}/lib:${LD_LIBRARY_PATH}"
+RUN usermod -aG sudo,dialout ubuntu
+RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
-RUN ln -s /usr/bin/clang-${LLVM_VERSION} /usr/bin/clang && \
-    ln -s /usr/bin/clang++-${LLVM_VERSION} /usr/bin/clang++ && \
-    ln -s /usr/bin/clang-format-${LLVM_VERSION} /usr/bin/clang-format
+USER ubuntu
 
-ENV CC=/usr/bin/clang \
-    CXX=/usr/bin/clang++
+ENV LANG=en_US.UTF-8
+ENV LANGUAGE=en_US:en
+ENV LC_ALL=en_US.UTF-8
 
-RUN update-alternatives --install /usr/bin/cc cc /usr/bin/clang 100 && \
-    update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang++ 100
-
-# +-----------------------------+
-# | CLEANUP                     |
-# +-----------------------------+
-RUN apt-get autoremove -y && \
-    apt-get clean autoclean && \
-    rm -rf /var/lib/apt/lists/* \
-    rm -rf /tmp/*
-
-ENV LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
-
-WORKDIR /code-samples
+WORKDIR /workspace
+CMD ["/bin/bash"]

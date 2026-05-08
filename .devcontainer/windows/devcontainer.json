@@ -1,16 +1,20 @@
 {
-    "name": "code-samples devcontainer",
+    "name": "code-samples [windows]",
     "build": {
-        "dockerfile": "Dockerfile"
+        "dockerfile": "../Dockerfile"
     },
+    "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
+    "workspaceFolder": "/workspace",
     "containerEnv": {
-        "SHELL": "/bin/bash"
+        "SHELL": "/bin/bash",
+        "DISPLAY": "${localEnv:DISPLAY}",
+        "XDG_RUNTIME_DIR": "/tmp/runtime-root"
     },
     "customizations": {
         "vscode": {
             "extensions": [
                 "xaver.clang-format",
-                "twxs.cmake",
+                "ms-vscode.cmake-tools",
                 "ms-python.python",
                 "ms-python.vscode-pylance",
                 "ms-python.vscode-python-envs",
@@ -18,12 +22,7 @@
             ]
         }
     },
-    "forwardPorts": [
-        19020
-    ],
     "runArgs": [
-        "--privileged",
-        "--add-host=host.docker.internal:host-gateway",
-        "-v"
+        "--ipc=host"
     ]
 }
