@@ -10,6 +10,11 @@
         "cwd": "${fileDirname}",
         "env": {
           "REPO_ROOT": "${workspaceFolder}",
+          "PROJECT_ROOT": "${relativeFileDirname}",
+          "EXPERIMENTAL_DIR": "${workspaceFolder}/experimental",
+          "EXPERIMENTAL_CPP_DIR": "${workspaceFolder}/experimental/cpp",
+          "LIB_DIR": "${workspaceFolder}/lib",
+          "LIB_CPP_DIR": "${workspaceFolder}/lib/cpp",
         },
       },
       "group": "build",
@@ -26,6 +31,11 @@
         "cwd": "${fileDirname}",
         "env": {
           "REPO_ROOT": "${workspaceFolder}",
+          "PROJECT_ROOT": "${relativeFileDirname}",
+          "EXPERIMENTAL_DIR": "${workspaceFolder}/experimental",
+          "EXPERIMENTAL_CPP_DIR": "${workspaceFolder}/experimental/cpp",
+          "LIB_DIR": "${workspaceFolder}/lib",
+          "LIB_CPP_DIR": "${workspaceFolder}/lib/cpp",
         },
       },
       "group": "build",
@@ -42,6 +52,11 @@
         "cwd": "${fileDirname}",
         "env": {
           "REPO_ROOT": "${workspaceFolder}",
+          "PROJECT_ROOT": "${relativeFileDirname}",
+          "EXPERIMENTAL_DIR": "${workspaceFolder}/experimental",
+          "EXPERIMENTAL_CPP_DIR": "${workspaceFolder}/experimental/cpp",
+          "LIB_DIR": "${workspaceFolder}/lib",
+          "LIB_CPP_DIR": "${workspaceFolder}/lib/cpp",
         },
       },
       "runOptions": {
