@@ -2,12 +2,14 @@
 
 #include <stdint.h>
 
-typedef enum {
+typedef enum
+{
 	CHARACTER_TYPE_PLAYER,
 	CHARACTER_TYPE_NPC,
 } character_type_t;
 
-typedef struct {
+typedef struct
+{
 	character_type_t type;
 	char* name;
 	uint8_t age;
