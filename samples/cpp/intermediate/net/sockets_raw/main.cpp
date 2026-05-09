@@ -78,7 +78,7 @@ static void run_server()
 	close_sock(server);
 }
 
-int main()
+int main(int argc, char** argv)
 {
 	std::println("\n==============================");
 	std::println("  sample: net: sockets_raw");
