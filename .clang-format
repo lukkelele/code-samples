@@ -78,6 +78,7 @@ IndentCaseLabels: true
 IndentWidth: 4
 IndentExternBlock: AfterExternBlock
 IndentRequiresClause: true
+LineEnding: LF
 NamespaceIndentation: All
 FixNamespaceComments: false
 IndentPPDirectives: AfterHash
