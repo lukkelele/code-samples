@@ -63,7 +63,6 @@ private:
 	int favorite_number;
 };
 
-
 int main()
 {
 	std::printf("\n==============================\n");
