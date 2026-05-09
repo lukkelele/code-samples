@@ -20,6 +20,9 @@ macro(sample_finalize)
         RUNTIME_OUTPUT_DIRECtORY_RELWITHDEBINFO ${_output_dir}
         RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL ${_output_dir}
     )
+    target_compile_definitions(${PROJECT_NAME} PRIVATE
+        SAMPLE_DIR="${CMAKE_CURRENT_SOURCE_DIR}"
+    )
 
     add_subdirectory($ENV{LIB_CPP_DIR}/core ${CMAKE_BINARY_DIR}/core_build)
     target_link_libraries(${PROJECT_NAME} PRIVATE
