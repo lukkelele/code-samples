@@ -1,0 +1,17 @@
+[req]
+distinguished_name = dn
+prompt = no
+x509_extensions = v3_ca
+
+[dn]
+C = SE
+ST = Test
+L = Test
+O = code-samples
+OU = test-ca
+CN = code-samples Test CA
+
+[v3_ca]
+basicConstraints = critical, CA:TRUE
+keyUsage = critical, keyCertSign, cRLSign
+subjectKeyIdentifier = hash

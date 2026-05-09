@@ -1,0 +1,17 @@
+[req]
+distinguished_name = dn
+prompt = no
+req_extensions = v3_req
+
+[dn]
+C = SE
+ST = Test
+L = Test
+O = code-samples
+OU = test-client
+CN = test-client
+
+[v3_req]
+basicConstraints = CA:FALSE
+keyUsage = critical, digitalSignature
+extendedKeyUsage = clientAuth
