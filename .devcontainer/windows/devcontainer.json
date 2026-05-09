@@ -3,6 +3,8 @@
     "build": {
         "dockerfile": "../Dockerfile"
     },
+    "containerUser": "ubuntu",
+    "remoteUser": "ubuntu",
     "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
     "workspaceFolder": "/workspace",
     "containerEnv": {
@@ -24,5 +26,6 @@
     },
     "runArgs": [
         "--ipc=host"
-    ]
+    ],
+    "forwardPorts": [8080]
 }

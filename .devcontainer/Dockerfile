@@ -24,6 +24,7 @@ RUN apt-get update && apt-get install -y \
     gdb \
     gnupg \
     jq \
+    libssl-dev \
     libx11-dev \
     libc6-dev \
     libxrandr-dev \
@@ -79,11 +80,12 @@ RUN wget -q "https://apt.llvm.org/llvm.sh" && \
 RUN usermod -aG sudo,dialout ubuntu
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
-USER ubuntu
+WORKDIR /workspace
+RUN chown -R ubuntu:ubuntu /workspace
 
+USER ubuntu
 ENV LANG=en_US.UTF-8
 ENV LANGUAGE=en_US:en
 ENV LC_ALL=en_US.UTF-8
 
-WORKDIR /workspace
 CMD ["/bin/bash"]
