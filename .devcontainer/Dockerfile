@@ -1,7 +1,6 @@
 FROM ubuntu:24.04
 
 ENV DEBIAN_FRONTEND=noninteractive
-ENV DISPLAY=:0
 
 RUN apt-get update && apt-get install -y \
     binutils \
@@ -24,6 +23,7 @@ RUN apt-get update && apt-get install -y \
     gdb \
     gnupg \
     jq \
+    libsdl2-dev \
     libssl-dev \
     libx11-dev \
     libc6-dev \
