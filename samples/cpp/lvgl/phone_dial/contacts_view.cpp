@@ -5,10 +5,6 @@
 #include <cstdio>
 #include <cstring>
 #include <print>
-#include <src/core/lv_obj_scroll.h>
-#include <src/core/lv_obj_style.h>
-#include <src/misc/lv_color.h>
-#include <src/misc/lv_palette.h>
 #include <string>
 
 #include <lvgl/lvgl.h>

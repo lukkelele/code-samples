@@ -5,7 +5,6 @@
 #include <cstdio>
 #include <cstring>
 #include <print>
-#include <src/core/lv_obj_style.h>
 #include <string>
 
 #include <lvgl/lvgl.h>
@@ -20,8 +19,7 @@ static constexpr std::array<const char*, 16> KEYPAD_MAP = {
 	"1", "2", "3", "\n",
 	"4", "5", "6", "\n",
 	"7", "8", "9", "\n",
-	LV_SYMBOL_BACKSPACE, "0", LV_SYMBOL_CALL, ""
-};
+	LV_SYMBOL_BACKSPACE, "0", LV_SYMBOL_CALL, ""};
 
 static void on_button_matrix_event(lv_event_t* e)
 {

@@ -26,11 +26,8 @@ endif()
 
 add_executable(${PROJECT_NAME})
 
-#set(LV_BUILD_CONF_PATH "${CMAKE_CURRENT_SOURCE_DIR}/lv_conf.h")
-add_subdirectory(
-    ${CMAKE_CURRENT_SOURCE_DIR}/../core
-    ${CMAKE_BINARY_DIR}/core_build
-)
+set(LV_BUILD_CONF_PATH "${CMAKE_CURRENT_SOURCE_DIR}/lv_conf.h")
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../core ${CMAKE_BINARY_DIR}/core_lvgl_build)
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/..
