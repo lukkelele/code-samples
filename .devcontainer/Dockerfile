@@ -2,6 +2,14 @@ FROM ubuntu:24.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV DISPLAY=:0
+ENV LANG=en_US.UTF-8
+ENV LANGUAGE=en_US:en
+ENV LC_ALL=en_US.UTF-8
+
+ARG user=ubuntu
+ENV RUSTUP_HOME=/home/${user}/.rustup
+ENV CARGO_HOME=/home/${user}/.cargo
+ENV PATH=/home/${user}/.cargo/bin:$PATH
 
 RUN apt-get update && apt-get install -y \
     binutils \
@@ -77,15 +85,20 @@ RUN wget -q "https://apt.llvm.org/llvm.sh" && \
     ln -sf /usr/bin/clang-tidy-19 /usr/local/bin/clang-tidy && \
     rm ./llvm.sh
 
-RUN usermod -aG sudo,dialout ubuntu
+RUN usermod -aG sudo,dialout ${user}
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 WORKDIR /workspace
-RUN chown -R ubuntu:ubuntu /workspace
+RUN chown -R ${user}:${user} /workspace
 
-USER ubuntu
-ENV LANG=en_US.UTF-8
-ENV LANGUAGE=en_US:en
-ENV LC_ALL=en_US.UTF-8
+USER ${user}
+
+# Rust installation.
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | \
+    sh -s -- \
+    -y \
+    --default-toolchain stable \
+    --profile default \
+    --no-modify-path
 
 CMD ["/bin/bash"]
