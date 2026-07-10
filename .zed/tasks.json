@@ -4,7 +4,7 @@
         "command": "cmake",
         "args": [
           "-S ${ZED_DIRNAME}",
-          "-B ${ZED_WORKTREE_ROOT}/build",
+          "-B ${ZED_DIRNAME}/build",
           "--fresh",
           "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON"
         ],
@@ -29,7 +29,7 @@
     {
         "label": "cmake: build",
         "command": "cmake",
-        "args": ["--build build", "--parallel"],
+        "args": ["--build ${ZED_DIRNAME}/build", "--parallel"],
         "cwd": "$ZED_WORKTREE_ROOT",
         "env": {
             "REPO_ROOT": "${ZED_WORKTREE_ROOT}",
@@ -51,7 +51,28 @@
     {
         "label": "cmake: clean",
         "command": "cmake",
-        "args": ["--build build", "--target clean"],
+        "args": ["--build ${ZED_DIRNAME}/build", "--target clean"],
+        "cwd": "$ZED_WORKTREE_ROOT",
+        "env": {
+            "REPO_ROOT": "${ZED_WORKTREE_ROOT}",
+            "PROJECT_ROOT": "${ZED_DIRNAME}",
+            "EXPERIMENTAL_DIR": "${ZED_WORKTREE_ROOT}/experimental",
+            "EXPERIMENTAL_CPP_DIR": "${ZED_WORKTREE_ROOT}/experimental/cpp",
+            "LIB_DIR": "${ZED_WORKTREE_ROOT}/lib",
+            "LIB_CPP_DIR": "${ZED_WORKTREE_ROOT}/lib/cpp"
+        },
+        "use_new_terminal": false,
+        "allow_concurrent_runs": false,
+        "reveal": "always",
+        "reveal_target": "dock",
+        "hide": "never",
+        "shell": "system",
+        "show_summary": true,
+        "show_command": true
+    },
+    {
+        "label": "build",
+        "command": "./scripts/build.sh",
         "cwd": "$ZED_WORKTREE_ROOT",
         "env": {
             "REPO_ROOT": "${ZED_WORKTREE_ROOT}",
@@ -93,7 +114,7 @@
     },
     {
         "label": "remove build dir",
-        "command": "rm -rf build",
+        "command": "rm -rf ${ZED_DIRNAME}/build ${ZED_DIRNAME}/target",
         "cwd": "$ZED_WORKTREE_ROOT",
         "use_new_terminal": false,
         "allow_concurrent_runs": false,
