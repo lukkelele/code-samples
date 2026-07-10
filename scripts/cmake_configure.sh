@@ -9,5 +9,5 @@ cmake_args=(
 
 cmake \
     -S ${PROJECT_ROOT} \
-    -B ${REPO_ROOT}/build \
+    -B ${PROJECT_ROOT}/build \
     "${cmake_args[@]}"

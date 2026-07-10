@@ -6,10 +6,10 @@ verbose=0
 name_after_samples="${PROJECT_ROOT##*samples/}"
 sample_language="${name_after_samples%%/*}"
 sample_name="${name_after_samples#*/}"
+sample_name="${sample_name%/src}"
 relative_project_dir="${PROJECT_ROOT#$REPO_ROOT/}"
 
-echo "
----------------------------------------------------------------------------------
+echo "---------------------------------------------------------------------------------
  [build.sh] ${sample_name} [${sample_language}]
 ---------------------------------------------------------------------------------"
 [ $verbose -eq 1 ] && echo " SAMPLE_DIR:   ${relative_project_dir}"
@@ -19,7 +19,7 @@ echo "
 
 cmake_build()
 {
-    if [[ ! -d "build" ]]; then
+    if [[ ! -d "${PROJECT_ROOT}/build" ]]; then
         echo "[build.sh] Build directory missing"
         ./scripts/cmake_configure.sh
         conf_ret=$?
@@ -40,10 +40,14 @@ cmake_build()
 }
 
 case "$PROJECT_ROOT" in
-    *samples/c|*experimental/c*)
+    *samples/rust|*samples/rust/*|*experimental/rust|*experimental/rust/*)
+        ./scripts/cargo_build.sh || exit $?
+        ;;
+    *samples/c|*samples/c/*|*samples/cpp|*samples/cpp/*|*experimental/c|*experimental/c/*|*experimental/cpp|*experimental/cpp/*)
         cmake_build || exit $?
         ;;
-    *samples/cpp|*experimental/cpp*)
-        cmake_build || exit $?
+    *)
+        echo "[build.sh] Unknown project language for: ${PROJECT_ROOT}"
+        exit 1
         ;;
 esac
