@@ -2,6 +2,18 @@
 # CMake extensions
 ###################################################################
 
+function(add_subdirectory_ifdef feature_toggle source_dir)
+    if (${${feature_toggle}})
+	    add_subdirectory(${source_dir} ${ARGN})
+    endif()
+endfunction()
+
+function(add_subdirectory_ifndef feature_toggle source_dir)
+    if (NOT ${feature_toggle})
+        add_subdirectory(${source_dir} ${ARGN})
+    endif()
+endfunction()
+
 # Print sample banner.
 function(sample_print_banner)
     message(STATUS "==================================================
@@ -12,7 +24,7 @@ endfunction()
 # Finalize a sample by setting up properties and other things to
 # make it easier to run using 'Tasks' (with Zed/Visual Studio Code).
 macro(sample_finalize)
-    set(_output_dir ${CMAKE_BINARY_DIR}/app)
+    set(_output_dir ${CMAKE_BINARY_DIR})
     set_target_properties(${PROJECT_NAME} PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY ${_output_dir}
         RUNTIME_OUTPUT_DIRECTORY_DEBUG ${_output_dir}
@@ -37,7 +49,7 @@ macro(sample_finalize)
         POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E create_hardlink
                 $<TARGET_FILE:${PROJECT_NAME}>
-                $<TARGET_FILE_DIR:${PROJECT_NAME}>/app
+                $<TARGET_FILE_DIR:${PROJECT_NAME}>/target
     )
 endmacro()
 
@@ -49,7 +61,7 @@ function(experimental_print_banner)
 endfunction()
 
 macro(experimental_finalize)
-    set(_output_dir ${CMAKE_BINARY_DIR}/app)
+    set(_output_dir ${CMAKE_BINARY_DIR})
     set_target_properties(${PROJECT_NAME} PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY ${_output_dir}
         RUNTIME_OUTPUT_DIRECTORY_DEBUG ${_output_dir}
@@ -72,18 +84,6 @@ macro(experimental_finalize)
         POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E create_hardlink
                 $<TARGET_FILE:${PROJECT_NAME}>
-                $<TARGET_FILE_DIR:${PROJECT_NAME}>/app
+                $<TARGET_FILE_DIR:${PROJECT_NAME}>/target
     )
 endmacro()
-
-function(add_subdirectory_ifdef feature_toggle source_dir)
-    if (${${feature_toggle}})
-	    add_subdirectory(${source_dir} ${ARGN})
-    endif()
-endfunction()
-
-function(add_subdirectory_ifndef feature_toggle source_dir)
-    if (NOT ${feature_toggle})
-        add_subdirectory(${source_dir} ${ARGN})
-    endif()
-endfunction()
