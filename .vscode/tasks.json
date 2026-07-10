@@ -5,7 +5,7 @@
       "label": "cmake: configure",
       "type": "shell",
       "command": "cmake",
-      "args": ["-S", "${fileDirname}", "-B", "${workspaceFolder}/build", "--fresh"],
+      "args": ["-S", "${fileDirname}", "-B", "${fileDirname}/build", "--fresh"],
       "options": {
         "cwd": "${fileDirname}",
         "env": {
@@ -26,7 +26,7 @@
       "label": "cmake: build",
       "type": "shell",
       "command": "cmake",
-      "args": ["--build", "${workspaceFolder}/build"],
+      "args": ["--build", "${fileDirname}/build"],
       "options": {
         "cwd": "${fileDirname}",
         "env": {
@@ -47,7 +47,7 @@
       "label": "cmake: clean",
       "type": "shell",
       "command": "cmake",
-      "args": ["--build", "${workspaceFolder}/build", "--target", "clean"],
+      "args": ["--build", "${fileDirname}/build", "--target", "clean"],
       "options": {
         "cwd": "${fileDirname}",
         "env": {
@@ -65,10 +65,41 @@
       "problemMatcher": [],
     },
     {
-      "label": "sample: run",
+      "label": "build",
       "type": "shell",
-      "command": "${workspaceFolder}/build/app/app",
-      "dependsOn": "cmake: build",
+      "command": "${workspaceFolder}/scripts/build.sh",
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "env": {
+          "REPO_ROOT": "${workspaceFolder}",
+          "PROJECT_ROOT": "${fileDirname}",
+          "EXPERIMENTAL_DIR": "${workspaceFolder}/experimental",
+          "EXPERIMENTAL_CPP_DIR": "${workspaceFolder}/experimental/cpp",
+          "LIB_DIR": "${workspaceFolder}/lib",
+          "LIB_CPP_DIR": "${workspaceFolder}/lib/cpp",
+        },
+      },
+      "group": "build",
+      "runOptions": {
+        "reevaluateOnRerun": false,
+      },
+      "problemMatcher": [],
+    },
+    {
+      "label": "run",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/build.sh && ${workspaceFolder}/scripts/run.sh",
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "env": {
+          "REPO_ROOT": "${workspaceFolder}",
+          "PROJECT_ROOT": "${fileDirname}",
+          "EXPERIMENTAL_DIR": "${workspaceFolder}/experimental",
+          "EXPERIMENTAL_CPP_DIR": "${workspaceFolder}/experimental/cpp",
+          "LIB_DIR": "${workspaceFolder}/lib",
+          "LIB_CPP_DIR": "${workspaceFolder}/lib/cpp",
+        },
+      },
       "runOptions": {
         "reevaluateOnRerun": false,
       },
