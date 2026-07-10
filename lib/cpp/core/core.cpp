@@ -4,20 +4,20 @@
 #include <thread>
 
 namespace core {
-	void print_banner(std::string_view text)
+	void print_banner(std::string_view text, const std::size_t banner_len, const char banner_symbol, const std::size_t padding)
 	{
-		static constexpr size_t padding = 2;
-		const size_t len = text.length();
-		const size_t total_width = len + (padding * 2);
+		const std::size_t len = text.length();
+		const std::size_t calc_banner_len = len + (2 * padding);
+		const std::size_t total_width = (calc_banner_len > banner_len) ? calc_banner_len : banner_len;
 
 		std::println();
-		for (size_t i = 0; i < total_width; i++) {
-			std::putchar('=');
+		for (std::size_t i = 0; i < total_width; i++) {
+			std::putchar(banner_symbol);
 		}
 
 		std::printf("\n%*s%.*s\n", static_cast<int>(padding), "", static_cast<int>(len), text.data());
-		for (std::size_t i = 0; i < total_width; ++i) {
-			std::putchar('=');
+		for (std::size_t i = 0; i < total_width; i++) {
+			std::putchar(banner_symbol);
 		}
 
 		std::println("\n");
@@ -25,7 +25,7 @@ namespace core {
 
 	void log_current_thread()
 	{
-		log("current thread: {}", std::this_thread::get_id());
+		log("thread: {}", std::this_thread::get_id());
 	}
 
 	std::string bytes_to_hex(std::span<const unsigned char> bytes)
@@ -68,7 +68,7 @@ namespace core {
 	std::span<const unsigned char> as_bytes(const sockaddr_in& addr)
 	{
 		const unsigned char* bytes = reinterpret_cast<const unsigned char*>(&addr);
-		return { bytes, sizeof(addr) };
+		return {bytes, sizeof(addr)};
 	}
 
 	std::string to_hex(const sockaddr_in& addr)

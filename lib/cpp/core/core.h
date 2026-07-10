@@ -7,6 +7,7 @@
 #include <concepts>
 #include <cstddef>
 #include <cstdio>
+#include <cstdint>
 #include <cstdlib>
 #include <cstring>
 #include <mutex>
@@ -16,13 +17,14 @@
 #include <string_view>
 #include <thread>
 #include <type_traits>
+#include <utility>
 
 #define ASSERT(_expr, ...) assert(_expr)
 
 using namespace std::chrono_literals;
 
 namespace core {
-	void print_banner(std::string_view text);
+	void print_banner(std::string_view text, std::size_t banner_len = 0, char banner_symbol = '=', std::size_t padding = 4);
 
 	template<typename... Args>
 	inline void log(std::format_string<Args...> fmt, Args&&... args)

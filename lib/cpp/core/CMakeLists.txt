@@ -14,6 +14,7 @@ include(extensions)
 add_library(${PROJECT_NAME} STATIC
     core.h
     core.cpp
+    print.cpp
 )
 
 if (MSVC)
