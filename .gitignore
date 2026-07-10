@@ -42,3 +42,7 @@
 
 build
 .cache
+external
+*.md
+!README.md
+
