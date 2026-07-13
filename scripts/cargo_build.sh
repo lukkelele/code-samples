@@ -6,7 +6,7 @@ if [[ -z "$PROJECT_ROOT" ]]; then
     exit 1
 fi
 
-. "scripts/utils.sh"
+. scripts/utils.sh
 manifest_path="$(rust_get_manifest_path)" || exit $?
 
 cargo build --manifest-path "$manifest_path"
