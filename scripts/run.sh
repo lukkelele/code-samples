@@ -2,10 +2,10 @@
 cd "$(dirname "${BASH_SOURCE[0]}")"/.. || exit 1
 
 . scripts/utils.sh
-rust_manifest_path="$(rust_get_manifest_path)" || exit $?
 
 case "$PROJECT_ROOT" in
     *samples/rust|*samples/rust/*|*experimental/rust|*experimental/rust/*)
+        rust_manifest_path="$(rust_get_manifest_path)" || exit $?
         cargo run \
             --quiet \
             --manifest-path "$rust_manifest_path"
