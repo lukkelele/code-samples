@@ -31,6 +31,7 @@ RUN apt-get update && apt-get install -y \
     gcc-multilib \
     gdb \
     gnupg \
+    iproute2 \
     jq \
     libssl-dev \
     libx11-dev \
@@ -42,6 +43,7 @@ RUN apt-get update && apt-get install -y \
     libxfixes-dev \
     libgl1-mesa-dev \
     libglu1-mesa-dev \
+    lsof \
     lsb-release \
     libgtk-3-dev \
     libwayland-bin \
