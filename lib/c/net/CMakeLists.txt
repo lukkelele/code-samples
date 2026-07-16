@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.20...3.28)
-project(cpp_core LANGUAGES C CXX)
+project(c_net LANGUAGES C)
 
-set(CMAKE_CXX_STANDARD 23)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_C_STANDARD 23)
+set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 if (NOT DEFINED ENV{REPO_ROOT})
@@ -12,7 +12,8 @@ list(APPEND CMAKE_MODULE_PATH "$ENV{REPO_ROOT}/cmake")
 include(extensions)
 
 add_library(${PROJECT_NAME} STATIC
-    core.h
-    core.cpp
-    print.cpp
+    net.h
+    net.c
+    wrappers_sockets.c
+    wrappers_unix.c
 )
