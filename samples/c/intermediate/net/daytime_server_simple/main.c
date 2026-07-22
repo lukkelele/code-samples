@@ -4,13 +4,17 @@
 
 int main(int argc, char** argv)
 {
+	uint16_t port = 13; /* daytime server */
+	if (argc >= 2) {
+		port = strtoul(argv[1], NULL, 10);
+	}
 	const int listen_fd = lk_socket(AF_INET, SOCK_STREAM, 0);
 
 	struct sockaddr_in servaddr;
 	bzero(&servaddr, sizeof(servaddr));
 	servaddr.sin_family = AF_INET;
 	servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
-	servaddr.sin_port = htons(13); /* daytime server */
+	servaddr.sin_port = htons(port);
 
 	LOG("bind -> sock %d (port %d)", listen_fd, ntohs(servaddr.sin_port));
 	lk_bind(listen_fd, (struct sockaddr*)&servaddr, sizeof(servaddr));
@@ -19,7 +23,6 @@ int main(int argc, char** argv)
 	lk_listen(listen_fd, LISTEN_QUEUE_SIZE);
 
 	for (;;) {
-		// const int connfd = lk_accept(listenfd, (struct sockaddr*)NULL, NULL);
 		struct sockaddr_storage conn_addr;
 		socklen_t conn_addr_len = sizeof(conn_addr);
 		const int conn_fd = lk_accept(listen_fd, (struct sockaddr*)&conn_addr, &conn_addr_len);

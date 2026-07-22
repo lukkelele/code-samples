@@ -2,8 +2,11 @@
 
 int main(int argc, char** argv)
 {
-	if (argc != 2) {
-		err_quit("missing ip address arg");
+	uint16_t port = 13; /* daytime server */
+	if (argc < 2) {
+		err_quit("usage: <ip_addr> [port]");
+	} else if (argc == 3) {
+		port = strtoul(argv[2], NULL, 10);
 	}
 	const char* ip_addr = argv[1];
 	try_convert_localhost(&ip_addr);
@@ -16,8 +19,8 @@ int main(int argc, char** argv)
 	struct sockaddr_in servaddr;
 	bzero(&servaddr, sizeof(servaddr));
 	servaddr.sin_family = AF_INET;
-	servaddr.sin_port = htons(13); /* daytime server */
-	LOG("ip: %s", ip_addr);
+	servaddr.sin_port = htons(port);
+	LOG("ip: %s (port %d)", ip_addr, port);
 	if (inet_pton(AF_INET, ip_addr, &servaddr.sin_addr) <= 0) {
 		err_quit("inet_pton error for %s", ip_addr);
 	}
