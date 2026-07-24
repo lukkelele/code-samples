@@ -4,6 +4,11 @@
 #include <thread>
 
 namespace core {
+	void init(const lklog::level log_level)
+	{
+		lklog::init(log_level);
+	}
+
 	void print_banner(std::string_view text, const std::size_t banner_len, const char banner_symbol, const std::size_t padding)
 	{
 		const std::size_t len = text.length();

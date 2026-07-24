@@ -11,8 +11,18 @@ endif()
 list(APPEND CMAKE_MODULE_PATH "$ENV{REPO_ROOT}/cmake")
 include(extensions)
 
+set(LKLOG_BUILD_TESTS OFF)
+add_subdirectory($ENV{EXTERNAL_DIR}/lklog ${CMAKE_BINARY_DIR}/lklog_build)
+
 add_library(${PROJECT_NAME} STATIC
     core.h
     core.cpp
     print.cpp
+)
+
+target_link_libraries(${PROJECT_NAME} PUBLIC
+    lklog
+)
+target_include_directories(${PROJECT_NAME} PUBLIC
+    $ENV{EXTERNAL_DIR}
 )

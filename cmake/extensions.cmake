@@ -32,13 +32,20 @@ macro(sample_finalize)
       RUNTIME_OUTPUT_DIRECtORY_RELWITHDEBINFO ${_output_dir}
       RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL ${_output_dir}
     )
+
+    target_include_directories(${PROJECT_NAME} PRIVATE
+        $ENV{EXTERNAL_DIR}
+        $ENV{MODULES_DIR}
+    )
     target_compile_definitions(${PROJECT_NAME} PRIVATE
       SAMPLE_DIR="${CMAKE_CURRENT_SOURCE_DIR}"
     )
 
     if (CMAKE_CXX_COMPILER_LOADED)
         target_include_directories(${PROJECT_NAME} PRIVATE $ENV{LIB_CPP_DIR})
-        add_subdirectory($ENV{LIB_CPP_DIR}/core ${CMAKE_BINARY_DIR}/core_build)
+        if (NOT TARGET cpp_core)
+            add_subdirectory($ENV{LIB_CPP_DIR}/core ${CMAKE_BINARY_DIR}/cpp_core_build)
+        endif()
         target_link_libraries(${PROJECT_NAME} PRIVATE
             cpp_core
         )
@@ -47,7 +54,7 @@ macro(sample_finalize)
     if (CMAKE_C_COMPILER_LOADED)
         target_include_directories(${PROJECT_NAME} PRIVATE $ENV{LIB_DIR}/c)
         if (PROJECT_NAME MATCHES "^c_sample_net")
-            add_subdirectory($ENV{LIB_DIR}/c/net ${CMAKE_BINARY_DIR}/net_build)
+            add_subdirectory($ENV{LIB_DIR}/c/net ${CMAKE_BINARY_DIR}/c_net_build)
             target_link_libraries(${PROJECT_NAME} PRIVATE c_net)
         endif()
     endif()
@@ -92,7 +99,9 @@ macro(experimental_finalize)
         RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL ${_output_dir}
     )
 
-    add_subdirectory($ENV{LIB_CPP_DIR}/core ${CMAKE_BINARY_DIR}/core_build)
+    if (NOT TARGET cpp_core)
+        add_subdirectory($ENV{LIB_CPP_DIR}/core ${CMAKE_BINARY_DIR}/cpp_core_build)
+    endif()
     target_include_directories(${PROJECT_NAME} PRIVATE
         $ENV{LIB_CPP_DIR}
         $ENV{EXPERIMENTAL_CPP_DIR}
@@ -108,4 +117,57 @@ macro(experimental_finalize)
                 $<TARGET_FILE:${PROJECT_NAME}>
                 $<TARGET_FILE_DIR:${PROJECT_NAME}>/target
     )
+endmacro()
+
+macro(build_glfw)
+    if (NOT TARGET glfw)
+        set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
+        set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+        set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+        set(GLFW_LIBRARY_TYPE STATIC CACHE STRING "" FORCE)
+        add_subdirectory($ENV{EXTERNAL_DIR}/glfw ${CMAKE_BINARY_DIR}/glfw_build)
+    endif()
+endmacro()
+
+macro(build_imgui)
+    if (NOT TARGET imgui)
+        add_library(imgui STATIC
+        	$ENV{EXTERNAL_DIR}/imgui/imgui_internal.h
+        	$ENV{EXTERNAL_DIR}/imgui/imgui.h
+        	$ENV{EXTERNAL_DIR}/imgui/imgui.cpp
+        	$ENV{EXTERNAL_DIR}/imgui/imgui_demo.cpp
+        	$ENV{EXTERNAL_DIR}/imgui/imgui_draw.cpp
+        	$ENV{EXTERNAL_DIR}/imgui/imgui_tables.cpp
+        	$ENV{EXTERNAL_DIR}/imgui/imgui_tables.cpp
+        	$ENV{EXTERNAL_DIR}/imgui/imgui_widgets.cpp
+        	$ENV{EXTERNAL_DIR}/imgui/backends/imgui_impl_glfw.cpp
+        	$ENV{EXTERNAL_DIR}/imgui/backends/imgui_impl_opengl3.cpp
+        )
+        target_include_directories(imgui PUBLIC
+            $ENV{EXTERNAL_DIR}/imgui
+            $ENV{EXTERNAL_DIR}/imgui/backends
+        )
+        target_include_directories(imgui PRIVATE $ENV{EXTERNAL_DIR}/glfw/include)
+        if (CMAKE_CXX_COMPILER_ID MATCHES "^(GNU|Clang)$")
+        	find_package(X11 REQUIRED)
+        	target_link_libraries(imgui PRIVATE X11)
+        endif()
+    endif()
+endmacro()
+
+macro(build_glad)
+    if (NOT TARGET glad)
+        add_subdirectory($ENV{MODULES_DIR}/glad ${CMAKE_BINARY_DIR}/glad_build)
+    endif()
+endmacro()
+
+macro(cpp_gui_linkage)
+    #build_glfw()
+    #build_imgui()
+    #add_subdirectory($ENV{MODULES_DIR}/glad ${CMAKE_BINARY_DIR} build_glad)
+    #target_include_directories(${PROJECT_NAME} PUBLIC
+    #    $ENV{MODULES_DIR}
+    #)
+    add_subdirectory($ENV{LIB_CPP_DIR}/gui ${CMAKE_BINARY_DIR}/cpp_gui_build)
+    target_link_libraries(${PROJECT_NAME} PRIVATE cpp_gui)
 endmacro()

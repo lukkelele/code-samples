@@ -19,11 +19,16 @@
 #include <type_traits>
 #include <utility>
 
+#include "lklog/lklog.h"
+
 #define ASSERT(_expr, ...) assert(_expr)
+#define UNUSED(...)        (void)(sizeof(__VA_ARGS__))
+#define ARRAYSIZE(Array)   (static_cast<int>((sizeof(Array) / sizeof(*(Array)))))
 
 using namespace std::chrono_literals;
 
 namespace core {
+	void init(lklog::level log_level = lklog::level::info);
 	void print_banner(std::string_view text, std::size_t banner_len = 0, char banner_symbol = '=', std::size_t padding = 4);
 
 	template<typename... Args>

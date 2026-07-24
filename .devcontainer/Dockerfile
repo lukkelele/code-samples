@@ -11,6 +11,15 @@ ENV RUSTUP_HOME=/home/${user}/.rustup
 ENV CARGO_HOME=/home/${user}/.cargo
 ENV PATH=/home/${user}/.cargo/bin:$PATH
 
+ARG WORKSPACE_DIR=/workspace
+ENV REPO_ROOT=${WORKSPACE_DIR} \
+    EXTERNAL_DIR=${WORKSPACE_DIR}/external \
+    MODULES_DIR=${WORKSPACE_DIR}/modules \
+    LIB_DIR=${WORKSPACE_DIR}/lib \
+    LIB_CPP_DIR=${WORKSPACE_DIR}/lib/cpp \
+    EXPERIMENTAL_DIR=${WORKSPACE_DIR}/experimental \
+    EXPERIMENTAL_CPP_DIR=${WORKSPACE_DIR}/experimental/cpp
+
 RUN apt-get update && apt-get install -y \
     binutils \
     build-essential \
