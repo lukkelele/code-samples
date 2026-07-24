@@ -28,6 +28,7 @@
 
 build
 target
+modules
 external/*
 Cargo.lock
 .cache
