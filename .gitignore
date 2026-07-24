@@ -28,6 +28,7 @@
 
 build
 target
+external/*
 Cargo.lock
 .cache
 *.md
