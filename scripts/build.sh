@@ -40,14 +40,19 @@ cmake_build()
 }
 
 case "$PROJECT_ROOT" in
-    *samples/rust|*samples/rust/*|*experimental/rust|*experimental/rust/*)
+    *samples/rust|*samples/c|*samples/cpp)
+        echo "[build.sh] Not in a sample directory: ${PROJECT_ROOT}"
+        exit 1
+        ;;
+    *samples/rust|*samples/rust/*)
         ./scripts/cargo_build.sh || exit $?
         ;;
-    *samples/c|*samples/c/*|*samples/cpp|*samples/cpp/*|*experimental/c|*experimental/c/*|*experimental/cpp|*experimental/cpp/*)
+    *samples/c/*|*samples/cpp/*)
         cmake_build || exit $?
+        ./scripts/merge_compile_commands.sh
         ;;
     *)
-        echo "[build.sh] Unknown project language for: ${PROJECT_ROOT}"
+        echo "[build.sh] Cannot build in: ${PROJECT_ROOT}"
         exit 1
         ;;
 esac
