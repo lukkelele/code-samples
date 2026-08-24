@@ -60,17 +60,13 @@ macro(sample_finalize)
     endif()
 
     # Create link to target so run.sh can be used in tasks.
-    add_custom_command(
-        TARGET ${PROJECT_NAME}
-        POST_BUILD
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E create_hardlink
             $<TARGET_FILE:${PROJECT_NAME}>
             $<TARGET_FILE_DIR:${PROJECT_NAME}>/target
     )
 
-    add_custom_command(
-        TARGET ${PROJECT_NAME}
-        POST_BUILD
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E make_directory
             $ENV{REPO_ROOT}/build
         COMMAND ${CMAKE_COMMAND} -E create_hardlink
@@ -82,92 +78,49 @@ macro(sample_finalize)
     )
 endmacro()
 
-# Print experimental project banner.
-function(experimental_print_banner)
-    message(STATUS "==================================================
-    ${PROJECT_NAME}
-   ==================================================")
-endfunction()
-
-macro(experimental_finalize)
-    set(_output_dir ${CMAKE_BINARY_DIR})
-    set_target_properties(${PROJECT_NAME} PROPERTIES
-        RUNTIME_OUTPUT_DIRECTORY ${_output_dir}
-        RUNTIME_OUTPUT_DIRECTORY_DEBUG ${_output_dir}
-        RUNTIME_OUTPUT_DIRECTORY_RELEASE ${_output_dir}
-        RUNTIME_OUTPUT_DIRECtORY_RELWITHDEBINFO ${_output_dir}
-        RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL ${_output_dir}
-    )
-
-    if (NOT TARGET cpp_core)
-        add_subdirectory($ENV{LIB_CPP_DIR}/core ${CMAKE_BINARY_DIR}/cpp_core_build)
-    endif()
-    target_include_directories(${PROJECT_NAME} PRIVATE
-        $ENV{LIB_CPP_DIR}
-        $ENV{EXPERIMENTAL_CPP_DIR}
-    )
-    target_link_libraries(${PROJECT_NAME} PRIVATE
-        cpp_core
-    )
-
-    add_custom_command(
-        TARGET ${PROJECT_NAME}
-        POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E create_hardlink
-                $<TARGET_FILE:${PROJECT_NAME}>
-                $<TARGET_FILE_DIR:${PROJECT_NAME}>/target
-    )
-endmacro()
-
 macro(build_glfw)
-    if (NOT TARGET glfw)
-        set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
-        set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
-        set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
-        set(GLFW_LIBRARY_TYPE STATIC CACHE STRING "" FORCE)
-        add_subdirectory($ENV{EXTERNAL_DIR}/glfw ${CMAKE_BINARY_DIR}/glfw_build)
-    endif()
+    set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
+    set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+    set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+    set(GLFW_LIBRARY_TYPE STATIC CACHE STRING "" FORCE)
+    add_subdirectory($ENV{EXTERNAL_DIR}/glfw ${CMAKE_BINARY_DIR}/glfw_build)
 endmacro()
 
 macro(build_imgui)
-    if (NOT TARGET imgui)
-        add_library(imgui STATIC
-        	$ENV{EXTERNAL_DIR}/imgui/imgui_internal.h
-        	$ENV{EXTERNAL_DIR}/imgui/imgui.h
-        	$ENV{EXTERNAL_DIR}/imgui/imgui.cpp
-        	$ENV{EXTERNAL_DIR}/imgui/imgui_demo.cpp
-        	$ENV{EXTERNAL_DIR}/imgui/imgui_draw.cpp
-        	$ENV{EXTERNAL_DIR}/imgui/imgui_tables.cpp
-        	$ENV{EXTERNAL_DIR}/imgui/imgui_tables.cpp
-        	$ENV{EXTERNAL_DIR}/imgui/imgui_widgets.cpp
-        	$ENV{EXTERNAL_DIR}/imgui/backends/imgui_impl_glfw.cpp
-        	$ENV{EXTERNAL_DIR}/imgui/backends/imgui_impl_opengl3.cpp
-        )
-        target_include_directories(imgui PUBLIC
-            $ENV{EXTERNAL_DIR}/imgui
-            $ENV{EXTERNAL_DIR}/imgui/backends
-        )
-        target_include_directories(imgui PRIVATE $ENV{EXTERNAL_DIR}/glfw/include)
-        if (CMAKE_CXX_COMPILER_ID MATCHES "^(GNU|Clang)$")
-        	find_package(X11 REQUIRED)
-        	target_link_libraries(imgui PRIVATE X11)
-        endif()
+    add_library(imgui STATIC
+        $ENV{EXTERNAL_DIR}/imgui/imgui_internal.h
+        $ENV{EXTERNAL_DIR}/imgui/imgui.h
+        $ENV{EXTERNAL_DIR}/imgui/imgui.cpp
+        $ENV{EXTERNAL_DIR}/imgui/imgui_demo.cpp
+        $ENV{EXTERNAL_DIR}/imgui/imgui_draw.cpp
+        $ENV{EXTERNAL_DIR}/imgui/imgui_tables.cpp
+        $ENV{EXTERNAL_DIR}/imgui/imgui_tables.cpp
+        $ENV{EXTERNAL_DIR}/imgui/imgui_widgets.cpp
+        $ENV{EXTERNAL_DIR}/imgui/backends/imgui_impl_glfw.cpp
+        $ENV{EXTERNAL_DIR}/imgui/backends/imgui_impl_opengl3.cpp
+    )
+    target_include_directories(imgui PUBLIC
+        $ENV{EXTERNAL_DIR}/imgui
+        $ENV{EXTERNAL_DIR}/imgui/backends
+    )
+    target_include_directories(imgui PRIVATE $ENV{EXTERNAL_DIR}/glfw/include)
+
+    if (CMAKE_CXX_COMPILER_ID MATCHES "^(GNU|Clang)$")
+        find_package(X11 REQUIRED)
+        target_link_libraries(imgui PRIVATE X11)
     endif()
 endmacro()
 
 macro(build_glad)
-    if (NOT TARGET glad)
-        add_subdirectory($ENV{MODULES_DIR}/glad ${CMAKE_BINARY_DIR}/glad_build)
-    endif()
+    add_subdirectory($ENV{MODULES_DIR}/glad ${CMAKE_BINARY_DIR}/glad_build)
 endmacro()
 
+macro(build_glm)
+    add_subdirectory($ENV{EXTERNAL_DIR}/glm ${CMAKE_BINARY_DIR}/glm_build)
+endmacro()
+
+# Build the cpp_gui library and link the current project to it.
 macro(cpp_gui_linkage)
-    #build_glfw()
-    #build_imgui()
-    #add_subdirectory($ENV{MODULES_DIR}/glad ${CMAKE_BINARY_DIR} build_glad)
-    #target_include_directories(${PROJECT_NAME} PUBLIC
-    #    $ENV{MODULES_DIR}
-    #)
     add_subdirectory($ENV{LIB_CPP_DIR}/gui ${CMAKE_BINARY_DIR}/cpp_gui_build)
     target_link_libraries(${PROJECT_NAME} PRIVATE cpp_gui)
 endmacro()
