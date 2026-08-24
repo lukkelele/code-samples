@@ -1,103 +1,103 @@
 [
-    {
-        "label": "cmake: configure",
-        "command": "cmake",
-        "args": [
-          "-S ${ZED_DIRNAME}",
-          "-B ${ZED_DIRNAME}/build",
-          "--fresh",
-          "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON"
-        ],
-        "cwd": "$ZED_WORKTREE_ROOT",
-        "env": {
-          "PROJECT_ROOT": "${ZED_DIRNAME}",
-        },
-        "use_new_terminal": false,
-        "allow_concurrent_runs": false,
-        "reveal": "always",
-        "reveal_target": "dock",
-        "hide": "never",
-        "shell": "system",
-        "show_summary": true,
-        "show_command": true
+  {
+    "label": "cmake: configure",
+    "command": "cmake",
+    "args": [
+      "-S ${ZED_DIRNAME}",
+      "-B ${ZED_DIRNAME}/build",
+      "--fresh",
+      "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON"
+    ],
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "env": {
+      "PROJECT_ROOT": "${ZED_DIRNAME}",
     },
-    {
-        "label": "cmake: build",
-        "command": "cmake",
-        "args": ["--build ${ZED_DIRNAME}/build", "--parallel"],
-        "cwd": "$ZED_WORKTREE_ROOT",
-        "env": {
-          "PROJECT_ROOT": "${ZED_DIRNAME}",
-        },
-        "use_new_terminal": false,
-        "allow_concurrent_runs": false,
-        "reveal": "always",
-        "reveal_target": "dock",
-        "hide": "never",
-        "shell": "system",
-        "show_summary": true,
-        "show_command": true
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false,
+    "reveal": "always",
+    "reveal_target": "dock",
+    "hide": "never",
+    "shell": "system",
+    "show_summary": true,
+    "show_command": true
+  },
+  {
+    "label": "cmake: build",
+    "command": "cmake",
+    "args": ["--build ${ZED_DIRNAME}/build", "--parallel"],
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "env": {
+      "PROJECT_ROOT": "${ZED_DIRNAME}",
     },
-    {
-        "label": "cmake: clean",
-        "command": "cmake",
-        "args": ["--build ${ZED_DIRNAME}/build", "--target clean"],
-        "cwd": "$ZED_WORKTREE_ROOT",
-        "env": {
-          "PROJECT_ROOT": "${ZED_DIRNAME}",
-        },
-        "use_new_terminal": false,
-        "allow_concurrent_runs": false,
-        "reveal": "always",
-        "reveal_target": "dock",
-        "hide": "never",
-        "shell": "system",
-        "show_summary": true,
-        "show_command": true
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false,
+    "reveal": "always",
+    "reveal_target": "dock",
+    "hide": "never",
+    "shell": "system",
+    "show_summary": true,
+    "show_command": true
+  },
+  {
+    "label": "cmake: clean",
+    "command": "cmake",
+    "args": ["--build ${ZED_DIRNAME}/build", "--target clean"],
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "env": {
+      "PROJECT_ROOT": "${ZED_DIRNAME}",
     },
-    {
-        "label": "build",
-        "command": "./scripts/build.sh",
-        "cwd": "$ZED_WORKTREE_ROOT",
-        "env": {
-          "PROJECT_ROOT": "${ZED_DIRNAME}",
-        },
-        "use_new_terminal": false,
-        "allow_concurrent_runs": false,
-        "reveal": "always",
-        "reveal_target": "dock",
-        "hide": "never",
-        "shell": "system",
-        "show_summary": true,
-        "show_command": true
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false,
+    "reveal": "always",
+    "reveal_target": "dock",
+    "hide": "never",
+    "shell": "system",
+    "show_summary": true,
+    "show_command": true
+  },
+  {
+    "label": "build",
+    "command": "./scripts/build.sh",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "env": {
+      "PROJECT_ROOT": "${ZED_DIRNAME}",
     },
-    {
-        "label": "run",
-        "command": "./scripts/build.sh && ./scripts/run.sh",
-        "cwd": "$ZED_WORKTREE_ROOT",
-        "env": {
-          "PROJECT_ROOT": "${ZED_DIRNAME}",
-        },
-        "use_new_terminal": false,
-        "allow_concurrent_runs": false,
-        "reveal": "always",
-        "reveal_target": "dock",
-        "hide": "never",
-        "shell": "system",
-        "show_summary": true,
-        "show_command": true
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false,
+    "reveal": "always",
+    "reveal_target": "dock",
+    "hide": "never",
+    "shell": "system",
+    "show_summary": true,
+    "show_command": true
+  },
+  {
+    "label": "run",
+    "command": "./scripts/build.sh && ./scripts/run.sh",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "env": {
+      "PROJECT_ROOT": "${ZED_DIRNAME}",
     },
-    {
-        "label": "remove build dir",
-        "command": "rm -rf ${ZED_DIRNAME}/build ${ZED_DIRNAME}/target",
-        "cwd": "$ZED_WORKTREE_ROOT",
-        "use_new_terminal": false,
-        "allow_concurrent_runs": false,
-        "reveal": "always",
-        "reveal_target": "dock",
-        "hide": "never",
-        "shell": "system",
-        "show_summary": true,
-        "show_command": true
-    }
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false,
+    "reveal": "always",
+    "reveal_target": "dock",
+    "hide": "never",
+    "shell": "system",
+    "show_summary": true,
+    "show_command": true
+  },
+  {
+      "label": "remove build dir",
+      "command": "rm -rf ${ZED_DIRNAME}/build ${ZED_DIRNAME}/target",
+      "cwd": "$ZED_WORKTREE_ROOT",
+      "use_new_terminal": false,
+      "allow_concurrent_runs": false,
+      "reveal": "always",
+      "reveal_target": "dock",
+      "hide": "never",
+      "shell": "system",
+      "show_summary": true,
+      "show_command": true
+  }
 ]
