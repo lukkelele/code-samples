@@ -1,21 +1,23 @@
 {
   "name": "code-samples [linux]",
   "build": {
-    "dockerfile": "../Dockerfile"
+    "dockerfile": "../Dockerfile",
+    "context": ".."
   },
   "privileged": true,
-  "remoteUser": "ubuntu",
+  "remoteUser": "user",
   "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
   "workspaceFolder": "/workspace",
   "mounts": [
     "type=bind,source=/dev/bus/usb,target=/dev/bus/usb",
     "type=bind,source=/dev/input,target=/dev/input",
-    "type=bind,source=/tmp/.X11-unix,target=/tmp/.X11-unix,readonly"
+    "type=bind,source=/tmp/.X11-unix,target=/tmp/.X11-unix,readonly",
+    "type=bind,source=${localEnv:XDG_RUNTIME_DIR}/wayland-0,target=/tmp/runtime-root/wayland-0"
   ],
   "containerEnv": {
     "SHELL": "/bin/bash",
     "DISPLAY": "${localEnv:DISPLAY}",
-    "WAYLAND_DISPLAY": "${localEnv:WAYLAND_DISPLAY}",
+    "WAYLAND_DISPLAY": "wayland-0",
     "XDG_RUNTIME_DIR": "/tmp/runtime-root",
   },
   "customizations": {
@@ -33,6 +35,8 @@
   },
   "runArgs": [
     "--device=/dev/dri:/dev/dri",
+    "--gpus", "all",
   ],
+  "postStartCommand": "sudo /usr/local/bin/container-setup.sh",
   "forwardPorts": [8080]
 }

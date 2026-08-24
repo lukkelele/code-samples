@@ -1,0 +1,4 @@
+for file in "$HOME"/.bash_completion.d/*; do
+    [ -f "$file" ] || continue
+    source "$file"
+done

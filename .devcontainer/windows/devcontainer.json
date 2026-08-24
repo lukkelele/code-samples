@@ -1,10 +1,10 @@
 {
   "name": "code-samples [windows]",
   "build": {
-    "dockerfile": "../Dockerfile"
+    "dockerfile": "../Dockerfile",
+    "context": ".."
   },
-  "containerUser": "ubuntu",
-  "remoteUser": "ubuntu",
+  "remoteUser": "user",
   "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
   "workspaceFolder": "/workspace",
   "containerEnv": {

@@ -1,20 +1,22 @@
 FROM ubuntu:24.04
 
-ARG user=ubuntu
+ARG USERNAME=user
+ARG UID=1000
+ARG GID=1000
 ENV DEBIAN_FRONTEND=noninteractive \
-    PATH=/home/${user}/.cargo/bin:$PATH \
+    PATH=/home/${USERNAME}/.cargo/bin:$PATH \
     LANG=en_US.UTF-8 \
     LANGUAGE=en_US:en \
     LC_ALL=en_US.UTF-8 \
-    RUSTUP_HOME=/home/${user}/.rustup \
-    CARGO_HOME=/home/${user}/.cargo
+    RUSTUP_HOME=/home/${USERNAME}/.rustup \
+    CARGO_HOME=/home/${USERNAME}/.cargo
 
-ARG workspace_dir=/workspace
-ENV REPO_ROOT=${workspace_dir} \
-    EXTERNAL_DIR=${workspace_dir}/external \
-    MODULES_DIR=${workspace_dir}/modules \
-    LIB_DIR=${workspace_dir}/lib \
-    LIB_CPP_DIR=${workspace_dir}/lib/cpp
+ARG WORKSPACE=/workspace
+ENV REPO_ROOT=${WORKSPACE} \
+    EXTERNAL_DIR=${WORKSPACE}/external \
+    MODULES_DIR=${WORKSPACE}/modules \
+    LIB_DIR=${WORKSPACE}/lib \
+    LIB_CPP_DIR=${WORKSPACE}/lib/cpp
 
 RUN apt-get update && apt-get install -y \
     binutils \
@@ -84,23 +86,45 @@ RUN apt-get clean -y && \
     apt-get autoremove --purge -y && \
     rm -rf /var/lib/apt/lists/*
 
-ARG clang_version=22
+ARG CLANG_VERSION=22
 RUN wget -q "https://apt.llvm.org/llvm.sh" && \
     chmod +x llvm.sh && \
-    ./llvm.sh ${clang_version} && \
-    apt-get install -y clang-format-${clang_version} clangd-${clang_version} clang-tidy-${clang_version} && \
-    ln -sf /usr/bin/clang-format-${clang_version} /usr/local/bin/clang-format && \
-    ln -sf /usr/bin/clangd-${clang_version} /usr/local/bin/clangd && \
-    ln -sf /usr/bin/clang-tidy-${clang_version} /usr/local/bin/clang-tidy && \
+    ./llvm.sh ${CLANG_VERSION} && \
+    apt-get install -y clang-format-${CLANG_VERSION} clangd-${CLANG_VERSION} clang-tidy-${CLANG_VERSION} && \
+    ln -sf /usr/bin/clang-format-${CLANG_VERSION} /usr/local/bin/clang-format && \
+    ln -sf /usr/bin/clangd-${CLANG_VERSION} /usr/local/bin/clangd && \
+    ln -sf /usr/bin/clang-tidy-${CLANG_VERSION} /usr/local/bin/clang-tidy && \
     rm ./llvm.sh
 
-RUN usermod -aG sudo,dialout ${user}
-RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+# Create user account.
+RUN <<EOF
+	# Remove 'ubuntu' user to free UID 1000.
+	userdel -r ubuntu || true
 
-WORKDIR /workspace
-RUN chown -R ${user}:${user} /workspace
+	# Create user group and user account.
+	groupadd -g ${GID} -o ${USERNAME}
+	useradd -u ${UID} -m -g ${USERNAME} -G plugdev ${USERNAME}
 
-USER ${user}
+	# Add user account to sudoers.
+	echo ${USERNAME} ' ALL = NOPASSWD: ALL' > /etc/sudoers.d/${USERNAME}
+	chmod 0440 /etc/sudoers.d/${USERNAME}
+EOF
+
+# Bash completion script.
+ADD bash_completion /home/${USERNAME}/.bash_completion
+RUN mkdir -p /home/${USERNAME}/.bash_completion.d
+
+WORKDIR ${WORKSPACE}
+RUN chown -R ${USERNAME}:${USERNAME} ${WORKSPACE} /home/${USERNAME}
+
+# Silence annoying warnings when running GUI applications inside the container.
+RUN mkdir -p /tmp/runtime-root && \
+    chown ${USERNAME}:${USERNAME} /tmp/runtime-root && \
+    chmod 700 /tmp/runtime-root
+
+COPY --chmod=0755 scripts/ /usr/local/bin/
+
+USER ${USERNAME}
 
 # Rust installation.
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | \
