@@ -1,24 +1,20 @@
 FROM ubuntu:24.04
 
-ENV DEBIAN_FRONTEND=noninteractive
-ENV DISPLAY=:0
-ENV LANG=en_US.UTF-8
-ENV LANGUAGE=en_US:en
-ENV LC_ALL=en_US.UTF-8
-
 ARG user=ubuntu
-ENV RUSTUP_HOME=/home/${user}/.rustup
-ENV CARGO_HOME=/home/${user}/.cargo
-ENV PATH=/home/${user}/.cargo/bin:$PATH
+ENV DEBIAN_FRONTEND=noninteractive \
+    PATH=/home/${user}/.cargo/bin:$PATH \
+    LANG=en_US.UTF-8 \
+    LANGUAGE=en_US:en \
+    LC_ALL=en_US.UTF-8 \
+    RUSTUP_HOME=/home/${user}/.rustup \
+    CARGO_HOME=/home/${user}/.cargo
 
-ARG WORKSPACE_DIR=/workspace
-ENV REPO_ROOT=${WORKSPACE_DIR} \
-    EXTERNAL_DIR=${WORKSPACE_DIR}/external \
-    MODULES_DIR=${WORKSPACE_DIR}/modules \
-    LIB_DIR=${WORKSPACE_DIR}/lib \
-    LIB_CPP_DIR=${WORKSPACE_DIR}/lib/cpp \
-    EXPERIMENTAL_DIR=${WORKSPACE_DIR}/experimental \
-    EXPERIMENTAL_CPP_DIR=${WORKSPACE_DIR}/experimental/cpp
+ARG workspace_dir=/workspace
+ENV REPO_ROOT=${workspace_dir} \
+    EXTERNAL_DIR=${workspace_dir}/external \
+    MODULES_DIR=${workspace_dir}/modules \
+    LIB_DIR=${workspace_dir}/lib \
+    LIB_CPP_DIR=${workspace_dir}/lib/cpp
 
 RUN apt-get update && apt-get install -y \
     binutils \
@@ -88,13 +84,14 @@ RUN apt-get clean -y && \
     apt-get autoremove --purge -y && \
     rm -rf /var/lib/apt/lists/*
 
+ARG clang_version=22
 RUN wget -q "https://apt.llvm.org/llvm.sh" && \
     chmod +x llvm.sh && \
-    ./llvm.sh 19 && \
-    apt-get install -y clang-format-19 clangd-19 clang-tidy-19 && \
-    ln -sf /usr/bin/clang-format-19 /usr/local/bin/clang-format && \
-    ln -sf /usr/bin/clangd-19 /usr/local/bin/clangd && \
-    ln -sf /usr/bin/clang-tidy-19 /usr/local/bin/clang-tidy && \
+    ./llvm.sh ${clang_version} && \
+    apt-get install -y clang-format-${clang_version} clangd-${clang_version} clang-tidy-${clang_version} && \
+    ln -sf /usr/bin/clang-format-${clang_version} /usr/local/bin/clang-format && \
+    ln -sf /usr/bin/clangd-${clang_version} /usr/local/bin/clangd && \
+    ln -sf /usr/bin/clang-tidy-${clang_version} /usr/local/bin/clang-tidy && \
     rm ./llvm.sh
 
 RUN usermod -aG sudo,dialout ${user}

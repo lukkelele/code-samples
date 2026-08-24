@@ -1,32 +1,32 @@
 {
-    "name": "code-samples [windows]",
-    "build": {
-        "dockerfile": "../Dockerfile"
-    },
-    "containerUser": "ubuntu",
-    "remoteUser": "ubuntu",
-    "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
-    "workspaceFolder": "/workspace",
-    "containerEnv": {
-        "SHELL": "/bin/bash",
-        "DISPLAY": "${localEnv:DISPLAY}",
-        "XDG_RUNTIME_DIR": "/tmp/runtime-root"
-    },
-    "customizations": {
-        "vscode": {
-            "extensions": [
-                "xaver.clang-format",
-                "ms-vscode.cmake-tools",
-                "ms-python.python",
-                "ms-python.vscode-pylance",
-                "ms-python.vscode-python-envs",
-                "ms-python.debugpy",
-                "rust-lang.rust-analyzer"
-            ]
-        }
-    },
-    "runArgs": [
-        "--ipc=host"
-    ],
-    "forwardPorts": [8080]
+  "name": "code-samples [windows]",
+  "build": {
+    "dockerfile": "../Dockerfile"
+  },
+  "containerUser": "ubuntu",
+  "remoteUser": "ubuntu",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
+  "workspaceFolder": "/workspace",
+  "containerEnv": {
+    "SHELL": "/bin/bash",
+    "DISPLAY": "${localEnv:DISPLAY}",
+    "XDG_RUNTIME_DIR": "/tmp/runtime-root"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "xaver.clang-format",
+        "ms-vscode.cmake-tools",
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-python.vscode-python-envs",
+        "ms-python.debugpy",
+        "rust-lang.rust-analyzer"
+      ]
+    }
+  },
+  "runArgs": [
+    "--ipc=host"
+  ],
+  "forwardPorts": [8080]
 }
