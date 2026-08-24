@@ -25,6 +25,7 @@
 *.out
 *.app
 *.dwo
+*.log
 
 build
 target
