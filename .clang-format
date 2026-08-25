@@ -81,7 +81,7 @@ IndentRequiresClause: true
 LineEnding: LF
 NamespaceIndentation: All
 FixNamespaceComments: false
-IndentPPDirectives: AfterHash
+IndentPPDirectives: None
 PPIndentWidth: 4
 PointerAlignment: Left
 SortIncludes: false
