@@ -18,8 +18,19 @@ void gui::init_render_context(GLFWwindow* const ctx)
 	ImGuiIO& io = ImGui::GetIO();
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 	io.ConfigDockingAlwaysTabBar = false;
+	io.IniFilename = SAMPLE_DIR "/imgui.ini";
 	ImGui_ImplGlfw_InitForOpenGL(ctx, true);
 	ImGui_ImplOpenGL3_Init("#version 460");
+
+	/* Fonts. */
+	{
+		const char* ttf_file = FONTS_DIR "/Roboto/Roboto-Medium.ttf";
+		io.FontDefault = io.Fonts->AddFontFromFileTTF(ttf_file, 22, nullptr, io.Fonts->GetGlyphRangesDefault());
+	}
+	{
+		const char* ttf_file = FONTS_DIR "/SourceCodePro/SourceSansPro-Semibold.ttf";
+		io.Fonts->AddFontFromFileTTF(ttf_file, 24, nullptr, io.Fonts->GetGlyphRangesDefault());
+	}
 
 	ImGui::StyleColorsDark();
 }

@@ -26,6 +26,12 @@ add_library(${PROJECT_NAME} STATIC
     window.cpp
 )
 
+target_compile_options(${PROJECT_NAME} PUBLIC
+    $<$<CONFIG:Debug>:-g3>
+    $<$<CONFIG:Debug>:-Og>
+    $<$<CONFIG:Debug>:-fno-omit-frame-pointer>
+)
+
 target_include_directories(${PROJECT_NAME} PUBLIC
     $ENV{LIB_CPP_DIR}
     $ENV{EXTERNAL_DIR}
@@ -41,4 +47,8 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
     glfw
     glm
     imgui
+)
+
+target_compile_definitions(${PROJECT_NAME} PRIVATE
+    FONTS_DIR="$ENV{REPO_ROOT}/resources/fonts"
 )
