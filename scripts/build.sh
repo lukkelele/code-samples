@@ -7,12 +7,14 @@ name_after_samples="${PROJECT_ROOT##*samples/}"
 sample_language="${name_after_samples%%/*}"
 sample_name="${name_after_samples#*/}"
 sample_name="${sample_name%/src}"
+sample_target="${sample_name##*/}"
 relative_project_dir="${PROJECT_ROOT#$REPO_ROOT/}"
 
 echo "---------------------------------------------------------------------------------
  [build.sh] ${sample_name} [${sample_language}]
 ---------------------------------------------------------------------------------"
 [ $verbose -eq 1 ] && echo " SAMPLE_DIR:   ${relative_project_dir}"
+[ $verbose -eq 1 ] && echo " SAMPLE_NAME:  ${sample_name}"
 [ $verbose -eq 1 ] && echo " REPO_ROOT:    ${REPO_ROOT}"
 [ $verbose -eq 1 ] && echo " PROJECT_ROOT: ${PROJECT_ROOT}"
 [ $verbose -eq 1 ] && echo "---------------------------------------------------------------------------------"
