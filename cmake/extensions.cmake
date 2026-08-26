@@ -24,6 +24,12 @@ endfunction()
 # Finalize a sample by setting up properties and other things to
 # make it easier to run using 'Tasks' (with Zed/Visual Studio Code).
 macro(sample_finalize)
+    target_compile_options(${PROJECT_NAME} PRIVATE
+        $<$<CONFIG:Debug>:-g3>
+        $<$<CONFIG:Debug>:-Og>
+        $<$<CONFIG:Debug>:-fno-omit-frame-pointer>
+    )
+
     set(_output_dir ${CMAKE_BINARY_DIR})
     set_target_properties(${PROJECT_NAME} PROPERTIES
       RUNTIME_OUTPUT_DIRECTORY ${_output_dir}
@@ -38,7 +44,8 @@ macro(sample_finalize)
         $ENV{MODULES_DIR}
     )
     target_compile_definitions(${PROJECT_NAME} PRIVATE
-      SAMPLE_DIR="${CMAKE_CURRENT_SOURCE_DIR}"
+        SAMPLE_DIR="${CMAKE_CURRENT_SOURCE_DIR}"
+        SAMPLE_NAME="${PROJECT_NAME}"
     )
 
     if (CMAKE_CXX_COMPILER_LOADED)
@@ -119,8 +126,19 @@ macro(build_glm)
     add_subdirectory($ENV{EXTERNAL_DIR}/glm ${CMAKE_BINARY_DIR}/glm_build)
 endmacro()
 
+macro(build_tracy)
+    set(TRACY_ENABLE ON)
+    set(TRACY_STATIC ON)
+    set(TRACY_ON_DEMAND ON)
+    add_subdirectory($ENV{EXTERNAL_DIR}/tracy ${CMAKE_BINARY_DIR}/tracy_build)
+endmacro()
+
 # Build the cpp_gui library and link the current project to it.
 macro(cpp_gui_linkage)
     add_subdirectory($ENV{LIB_CPP_DIR}/gui ${CMAKE_BINARY_DIR}/cpp_gui_build)
     target_link_libraries(${PROJECT_NAME} PRIVATE cpp_gui)
+    target_compile_definitions(cpp_gui PRIVATE
+        SAMPLE_DIR="${CMAKE_CURRENT_SOURCE_DIR}"
+        SAMPLE_NAME="${PROJECT_NAME}"
+    )
 endmacro()

@@ -1,7 +1,6 @@
 #pragma once
 
 #include <chrono>
-#include <cstdint>
 #include <string_view>
 
 #include "print.h"
@@ -36,12 +35,3 @@ namespace core {
 		std::chrono::steady_clock::time_point m_start;
 	};
 }
-
-#define PROFILER_TIMER_CONCAT_INNER(a, b) a##b
-#define PROFILER_TIMER_CONCAT(a, b)       PROFILER_TIMER_CONCAT_INNER(a, b)
-
-#define PROFILER_TIMER(...)                                                     \
-	const ::core::ScopedTimer PROFILER_TIMER_CONCAT(_profiler_timer_, __LINE__) \
-	{                                                                           \
-		__func__ __VA_OPT__(, ) __VA_ARGS__                                     \
-	}
