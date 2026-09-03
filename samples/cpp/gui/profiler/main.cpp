@@ -19,19 +19,21 @@ int main(const int argc, char* const* argv)
 
 	LOG_INFO("Enter main loop");
 	while (window.is_running()) {
-		PROFILER_SCOPED("Main Loop");
-		window.begin_frame();
+		{
+			PROFILER_SCOPED("Main Loop");
+			window.begin_frame();
 
-		if (ImGui::Begin("Window")) {
-			PROFILER_SCOPED("Window");
-			if (ImGui::Button("Button")) {
-				LOG_INFO("Pressed button");
-				std::this_thread::sleep_for(300ms);
+			if (ImGui::Begin("Window")) {
+				PROFILER_SCOPED("Window");
+				if (ImGui::Button("Button")) {
+					LOG_INFO("Pressed button");
+					std::this_thread::sleep_for(300ms);
+				}
 			}
-		}
-		ImGui::End();
+			ImGui::End();
 
-		window.end_frame();
+			window.end_frame();
+		}
 		PROFILER_MARK_FRAME();
 	}
 

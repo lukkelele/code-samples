@@ -20,19 +20,20 @@ int main(const int argc, char* const* argv)
 
 	LOG_INFO("Enter main loop");
 	while (window.is_running()) {
-		ZoneScopedN("Main Loop");
-		window.begin_frame();
+		{
+			ZoneScopedN("Main Loop");
+			window.begin_frame();
 
-		if (ImGui::Begin("Window")) {
-			ZoneScopedN("Window");
-			if (ImGui::Button("Button")) {
-				LOG_INFO("Pressed button");
-				std::this_thread::sleep_for(500ms);
+			if (ImGui::Begin("Window")) {
+				ZoneScopedN("Window");
+				if (ImGui::Button("Button")) {
+					std::this_thread::sleep_for(500ms);
+				}
+				ImGui::End();
 			}
-			ImGui::End();
-		}
 
-		window.end_frame();
+			window.end_frame();
+		}
 		FrameMark;
 	}
 
