@@ -117,13 +117,6 @@ RUN mkdir -p /home/${USERNAME}/.bash_completion.d
 WORKDIR ${WORKSPACE}
 RUN chown -R ${USERNAME}:${USERNAME} ${WORKSPACE} /home/${USERNAME}
 
-# Silence annoying warnings when running GUI applications inside the container.
-RUN mkdir -p /tmp/runtime-root && \
-    chown ${USERNAME}:${USERNAME} /tmp/runtime-root && \
-    chmod 700 /tmp/runtime-root
-
-COPY --chmod=0755 scripts/ /usr/local/bin/
-
 USER ${USERNAME}
 
 # Rust installation.

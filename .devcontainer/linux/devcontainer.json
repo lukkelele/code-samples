@@ -9,29 +9,29 @@
   "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
   "workspaceFolder": "/workspace",
   "mounts": [
-    "type=bind,source=/dev/bus/usb,target=/dev/bus/usb",
-    "type=bind,source=/dev/input,target=/dev/input",
-    "type=bind,source=/tmp/.X11-unix,target=/tmp/.X11-unix,readonly",
+    "source=/dev/bus/usb,target=/dev/bus/usb,type=bind",
+    "source=/dev/input,target=/dev/input,type=bind",
+    "source=/tmp/.X11-unix,target=/tmp/.X11-unix,readonly,type=bind"
   ],
   "containerEnv": {
     "SHELL": "/bin/bash",
     "DISPLAY": "${localEnv:DISPLAY}",
+    "WAYLAND_DISPLAY": "${localEnv:WAYLAND_DISPLAY}",
     "XDG_RUNTIME_DIR": "/tmp/runtime-root",
+    "NVIDIA_VISIBLE_DEVICES": "all", // Experimental
+    "NVIDIA_DRIVER_CAPABILITIES": "graphics,display,utility" // Experimental
   },
   "customizations": {
     "vscode": {
       "extensions": [
         "xaver.clang-format",
         "ms-vscode.cmake-tools",
-        "ms-python.python",
-        "ms-python.vscode-pylance",
-        "ms-python.vscode-python-envs",
-        "ms-python.debugpy",
         "rust-lang.rust-analyzer"
       ]
     }
   },
   "runArgs": [
     "--device=/dev/dri:/dev/dri",
+    "--gpus=all" // Experimental
   ]
 }
