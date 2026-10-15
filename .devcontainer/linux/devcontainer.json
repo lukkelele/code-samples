@@ -26,7 +26,8 @@
       "extensions": [
         "xaver.clang-format",
         "ms-vscode.cmake-tools",
-        "rust-lang.rust-analyzer"
+        "rust-lang.rust-analyzer",
+        "llvm-vs-code-extensions.vscode-clangd"
       ]
     }
   },
