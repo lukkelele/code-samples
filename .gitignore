@@ -29,7 +29,8 @@
 
 build
 target
-modules
+modules/**/*.h
+modules/**/*.c
 Cargo.lock
 .cache
 *.md
