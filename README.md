@@ -11,7 +11,31 @@ Begin by cloning the repo.
 git clone https://github.com/lukkelele/code-samples.git
 ```
 
+### Devcontainer
+GUI samples need access to the GPU.
+
+#### Nvidia GPU
+Make sure the container has access, run on host:
+```
+docker info | grep -i runtime
+docker run --rm --gpus all ubuntu:24.04 nvidia-smi
+```
+
+Check if nvidia-ctk is installed.
+```
+which nvidia-ctk
+```
+Otherwise, install it and configure docker.
+```
+sudo nvidia-ctk runtime configure --runtime=docker
+sudo systemctl restart docker
+```
+
+The devcontainer.json *might* need the `--gpus=all` argument to run.
+
 <br>
+
+---
 
 ## Samples
 > - [C](./samples/c)
