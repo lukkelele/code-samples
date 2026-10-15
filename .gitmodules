@@ -9,7 +9,7 @@
 	url = https://github.com/ocornut/imgui.git
 [submodule "external/lklog"]
 	path = external/lklog
-	url = https://github.com/lukkelele/lklog.git
+	url = git@github.com:lukkelele/lklog.git
 [submodule "external/glm"]
 	path = external/glm
 	url = https://github.com/g-truc/glm.git
